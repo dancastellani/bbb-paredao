@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "Instalando o Maven..."
+mvn clean package exec:java
+
+echo "ok"

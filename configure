@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "Instalando o Maven..."
+sudo apt-get install maven2
+
+echo "ok"
