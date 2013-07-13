@@ -1,2 +1,2 @@
-default:
-	mvn clean jetty:run
+default: 
+	mvn clean compile flyway:migrate jetty:run
