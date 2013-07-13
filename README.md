@@ -1,4 +1,5 @@
 Para rodar:
 
 ./configure
+
 make
