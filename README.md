@@ -1,5 +1,7 @@
-Para rodar:
+Para executar:
+-
 
+<pre>
 ./configure
-
 make
+</pre>
