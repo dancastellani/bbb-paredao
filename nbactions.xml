@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-run</actionName>
+            <displayName>run</displayName>
+            <goals>
+                <goal>jetty:run</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-stop</actionName>
+            <displayName>stop</displayName>
+            <goals>
+                <goal>jetty:stop</goal>
+            </goals>
+        </action>
+    </actions>
