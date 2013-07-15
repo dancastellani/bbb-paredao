@@ -1,0 +1,1 @@
+insert into votacao values (1, 'Laisa', 'Yuri', current_timestamp, (SELECT current_timestamp + INTERVAL '2' DAY));
