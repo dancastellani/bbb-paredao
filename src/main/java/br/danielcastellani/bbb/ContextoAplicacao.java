@@ -8,8 +8,12 @@ import br.danielcastellani.bbb.dao.VotacaoDAO;
 import br.danielcastellani.bbb.dao.VotacaoDAOImpl;
 import br.danielcastellani.bbb.job.SalvarVotosJob;
 import br.danielcastellani.bbb.service.VotacaoService;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.quartz.JobDetail;
@@ -85,7 +89,12 @@ public class ContextoAplicacao implements ServletContextListener {
 
     public static void carregarDriverJDBC() {
         try {
-            Class.forName("org.postgresql.Driver");
+            Properties prop = new Properties();
+            prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("db/database.properties"));
+            Class.forName(prop.getProperty("database.driver"));
+
+        } catch (IOException ex) {
+            throw new RuntimeException("Erro ao conectar com o banco.", ex);
         } catch (ClassNotFoundException ex) {
             throw new RuntimeException("Erro ao conectar com o banco.", ex);
         }

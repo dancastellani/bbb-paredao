@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class VotacaoDAOImpl implements VotacaoDAO {
 
+    @Override
     public Votacao getVotacaoCorrente() {
         final String query = "select * from votacao where id = ? order by inicio, fim desc";
 
@@ -48,6 +49,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
         }
     }
 
+    @Override
     public void salvar(Votos votos) {
         final String query = "insert into votos (idvotacao, votosesquerda, votosdireita, horarecebimento) values (?, ?, ?, ?)";
 
@@ -69,6 +71,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
         }
     }
 
+    @Override
     public SituacaoVotacao getSituacaoVotacao(int idVotacao) {
         final String query = "select sum(votosEsquerda) as votosEsquerda, sum(votosDireita) as votosDireita, fim \n"
                 + "from votos join votacao on votos.idvotacao=votacao.id\n"
@@ -101,7 +104,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
 
     @Override
     public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) {
-        final String query = "select 	TO_CHAR(horaRecebimento,'hh24') as hora,"
+        final String query = "select 	HOUR(horaRecebimento) as hora,"
                 + "	sum(votosEsquerda) as votosEsquerda,"
                 + " 	sum(votosDireita) as votosDireita "
                 + "from votos "

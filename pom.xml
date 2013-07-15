@@ -15,13 +15,53 @@
         <jetty.version>7.1.6.v20100715</jetty.version>
         <spring.version>2.5.6</spring.version>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
-        <database.driver>org.postgresql.Driver</database.driver>
-        <database.url>jdbc:postgresql://localhost:5432/bbb</database.url>
-        <database.user>postgres</database.user>
-        <database.password>postgres</database.password>
-        <skipTests>false</skipTests>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>Production</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <database.driver>org.h2.Driver</database.driver>
+                <database.url>jdbc:h2:file:target/bbb-votacao</database.url>
+                <database.user>sa</database.user>
+                <database.password>sa</database.password>
+                <jsf.stage>Production</jsf.stage>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.3.167</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        
+        <profile>
+            <id>Development</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <database.driver>org.postgresql.Driver</database.driver>
+                <database.url>jdbc:postgresql://localhost:5432/bbb</database.url>
+                <database.user>postgres</database.user>
+                <database.password>postgres</database.password>
+                <jsf.stage>Development</jsf.stage>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>8.2-504.jdbc3</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        
+    </profiles>
+    
     <dependencies>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -46,16 +86,6 @@
             <version>1.8.4</version>
         </dependency>
             
-        <!--        <dependency>
-            <groupId>hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>1.8.0.5</version>
-        </dependency>-->
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>8.2-504.jdbc3</version>
-        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -129,14 +159,15 @@
                 <artifactId>maven-jetty-plugin</artifactId>
                 <version>6.1.26</version>
                 <configuration>
-                    <!--                             Delete this block to have Jetty run default port (8080)
+                    <!--Delete this block to have Jetty run default port (8080)-->
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>80</port>
                         </connector>
-                    </connectors>-->
+                    </connectors>
                     <contextPath>/</contextPath>
                     <scanIntervalSeconds>3</scanIntervalSeconds>
+                    
                 </configuration>
             </plugin>
             <!-- flyway -->
@@ -158,6 +189,13 @@
                     <user>${database.user}</user>
                     <password>${database.password}</password>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>1.3.170</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -177,8 +215,6 @@
             </resource>
         </resources>
     </build>
-
-       
 
     <repositories>
         <repository>
