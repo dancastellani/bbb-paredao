@@ -52,7 +52,7 @@ public class ResumoMB {
     public List<ResumoVotos> getVotosPorHora() {
         return votosPorHora;
     }
-    
+
     public int getVotosTotais() {
         int total = 0;
         for (ResumoVotos resumoVotos : votosPorHora) {
