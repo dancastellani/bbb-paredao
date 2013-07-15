@@ -20,10 +20,8 @@ public class VotacaoService {
     private int votosEsquerda;
     private long finalDaVotacao; //para otimizar a comparacao a cada voto
     private VotacaoDAO votacaoDAO;
+    private int idVotacaoCorrente;
 
-    /**
-     * @param votacaoDAO the votacaoDAO to set
-     */
     public void setVotacaoDAO(VotacaoDAO votacaoDAO) {
         this.votacaoDAO = votacaoDAO;
     }
@@ -31,6 +29,9 @@ public class VotacaoService {
     public void inicializaVotacao() {
         Votacao votacaoCorrente = votacaoDAO.getVotacaoCorrente();
         this.finalDaVotacao = votacaoCorrente.getFim().getTime();
+        this.idVotacaoCorrente = votacaoCorrente.getId();
+        this.votosDireita = 0;
+        this.votosEsquerda = 0;
     }
 
     public enum Participantes {
@@ -55,17 +56,21 @@ public class VotacaoService {
         System.out.println("votosEsquerda = " + votosEsquerda);
         System.out.println("votosDireita = " + votosDireita);
         System.out.println("Tempo restante: " + (finalDaVotacao - System.currentTimeMillis()) + " milissegundos");
+
     }
 
     public synchronized PacoteDeVotos getVotosContabilizadosParaReiniciarContagem() {
-        PacoteDeVotos pacoteDeVotos = new PacoteDeVotos(votosEsquerda, votosDireita, System.currentTimeMillis());
+        PacoteDeVotos pacoteDeVotos = new PacoteDeVotos(votosEsquerda, votosDireita, System.currentTimeMillis(), idVotacaoCorrente);
         this.votosDireita = 0;
         this.votosEsquerda = 0;
+
         return pacoteDeVotos;
     }
 
-//    public void salvaVotacaoAtual() {
-//        PacoteDeVotos votos = getVotosContabilizadosParaReiniciarContagem();
-//        votacaoDAO.salvar(votos);
-//    }
+    public void salvaVotacaoAtual() {
+        PacoteDeVotos votos = getVotosContabilizadosParaReiniciarContagem();
+        if (votos.getVotosParticipanteEsquerda() != 0 || votos.getVotosParticipanteDireita() != 0) {
+            votacaoDAO.salvar(votos);
+        }
+    }
 }

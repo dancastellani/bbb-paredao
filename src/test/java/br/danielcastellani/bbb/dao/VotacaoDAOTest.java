@@ -15,8 +15,8 @@ import org.testng.annotations.Test;
  */
 public class VotacaoDAOTest {
 
-//    @Test
-    public void recuperaVotacaoCorrente() {
+    @Test
+    public void recuperaVotacaoCorrenteComSucesso() {
         VotacaoDAOImpl votacaoDAOImpl = new VotacaoDAOImpl();
         Votacao votacaoCorrente = votacaoDAOImpl.getVotacaoCorrente();
 

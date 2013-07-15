@@ -4,7 +4,7 @@
  */
 package br.danielcastellani.bbb.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
@@ -17,10 +17,11 @@ public class PacoteDeVotos {
     private Date horaRecebimento;
     private int idVotacao;
 
-    public PacoteDeVotos(int votosEsquerda, int votosDireita, long currentTimeMillis) {
+    public PacoteDeVotos(int votosEsquerda, int votosDireita, long currentTimeMillis, int idVotacao) {
         this.votosParticipanteEsquerda = votosEsquerda;
         this.votosParticipanteDireita = votosDireita;
         this.horaRecebimento = new Date(currentTimeMillis);
+        this.idVotacao = idVotacao;
     }
 
     /**
@@ -36,6 +37,7 @@ public class PacoteDeVotos {
     public void setHoraRecebimento(Date horaContagem) {
         this.horaRecebimento = horaContagem;
     }
+
     /**
      * @return the idVotacao
      */

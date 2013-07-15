@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="SUITE DE TESTE">
+    <test name="ContextoAplicacao" verbose="0" preserve-order="true">
+        <classes>
+            <class name="br.danielcastellani.bbb.ContextoTest"/>
+        </classes>
+    </test>
+
+    <test name="Testes" verbose="1" preserve-order="true">
+        <classes>
+            <class name="br.danielcastellani.bbb.dao.VotacaoDAOTest"/>
+        </classes>
+    </test>
+</suite>

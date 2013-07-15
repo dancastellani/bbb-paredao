@@ -4,6 +4,7 @@
  */
 package br.danielcastellani.bbb.dao;
 
+import br.danielcastellani.bbb.model.PacoteDeVotos;
 import br.danielcastellani.bbb.model.Votacao;
 
 /**
@@ -14,5 +15,5 @@ public interface VotacaoDAO {
     
     public Votacao getVotacaoCorrente();
 
-//    public void salvar(PacoteDeVotos votos);
+    public void salvar(PacoteDeVotos votos);
 }

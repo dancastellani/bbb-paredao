@@ -53,7 +53,7 @@ public class ContextoAplicacao implements ServletContextListener {
         VotacaoDAO votacaoDAO = getBean(VotacaoDAOImpl.class);
         VotacaoService votacaoService = getBean(VotacaoService.class);
         votacaoService.setVotacaoDAO(votacaoDAO);
-        
+
         carregarDriverJDBC();
 
         System.out.println("ok");

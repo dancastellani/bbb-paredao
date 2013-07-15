@@ -62,6 +62,9 @@ public class VotacaoControlador extends HttpServlet {
         } else if ("direita".equals(participanteVotado)) {
             votacaoService.votarEm(VotacaoService.Participantes.direita);
         }
+
+        //remover para deixar a cada espaço de tempo
+        votacaoService.salvaVotacaoAtual();
     }
 
     @Override
