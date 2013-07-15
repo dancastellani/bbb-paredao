@@ -104,6 +104,7 @@
 }
 
 #timer{
+    text-align: center;
     border-radius: 4px;
     border: 1px solid #ff9a00;
 }
