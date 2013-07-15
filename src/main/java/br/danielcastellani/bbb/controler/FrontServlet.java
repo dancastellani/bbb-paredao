@@ -24,25 +24,6 @@ public class FrontServlet extends HttpServlet {
         this.votacaoControler = ContextoAplicacao.getContexto().getBean(VotacaoControler.class);
     }
 
-//    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        response.setContentType("text/html;charset=UTF-8");
-//        PrintWriter out = response.getWriter();
-//        try {
-//            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet VotacaoServlet</title>");
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet VotacaoServlet at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        } finally {
-//            out.close();
-//        }
-//    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String requestURI = request.getRequestURI().substring("/votacao".length());
@@ -52,12 +33,11 @@ public class FrontServlet extends HttpServlet {
         } else if (requestURI.equals("/situacao")) {
             retorno = votacaoControler.getSituacaoVotacao();
         }
-        
+
         PrintWriter writer = null;
         try {
             writer = response.getWriter();
             writer.print(retorno);
-            writer.close();
         } finally {
             writer.close();
         }
