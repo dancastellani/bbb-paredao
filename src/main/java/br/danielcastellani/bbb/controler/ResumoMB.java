@@ -30,8 +30,6 @@ public class ResumoMB {
         votosPorHora = votacaoService.getVotosDeVotacaoAgrupadosHora(votacao.getId());
     }
 
-    
-    
     /**
      * @return the votacao
      */
@@ -75,5 +73,17 @@ public class ResumoMB {
             total += resumoVotos.getVotosDireita();
         }
         return total;
+    }
+
+    public long getPercentualVotosTotaisEsquerda() {
+        double percentual = getVotosTotaisEsquerda() * 100;
+        percentual /= getVotosTotais();
+        return Math.round(percentual);
+    }
+
+    public long getPercentualVotosTotaisDireita() {
+        double percentual = getVotosTotaisDireita() * 100;
+        percentual /= getVotosTotais();
+        return Math.round(percentual);
     }
 }
