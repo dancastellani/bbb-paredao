@@ -11,7 +11,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 /**
- * Essa tarefa é executada com o Quartz de forma que periodicamente salva os votos.
+ * Essa tarefa e executada com o Quartz de forma que periodicamente salva os votos.
  * 
  * @author DanCastellani
  */

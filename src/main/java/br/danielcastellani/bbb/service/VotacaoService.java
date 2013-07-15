@@ -12,7 +12,7 @@ import br.danielcastellani.bbb.model.Votacao;
 import java.util.List;
 
 /**
- * Um contador thread safe para receber cada voto e armazenar até que sejam
+ * Um contador thread safe para receber cada voto e armazenar ate que sejam
  * salvos.
  *
  * @author DanCastellani

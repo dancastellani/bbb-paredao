@@ -23,7 +23,7 @@ public class ConexaoBD {
             connection = connect();
             PreparedStatement ps = connection.prepareStatement(query);
             for (int i = 0; i < parametros.length; i++) {
-                //o indice das queries começa em 1 e não em 0, como no java.
+                //o indice das queries começa em 1 e nao em 0, como no java.
                 ps.setString(i + 1, parametros[i]);
             }
             int i = ps.executeUpdate();
@@ -42,7 +42,7 @@ public class ConexaoBD {
             connection = connect();
             PreparedStatement ps = connection.prepareStatement(query);
             for (int i = 0; i < parametros.length; i++) {
-                //o indice das queries começa em 1 e não em 0, como no java.
+                //o indice das queries comeca em 1 e nao em 0, como no java.
                 ps.setString(i + 1, parametros[i]);
             }
             ResultSet rs = ps.executeQuery();
