@@ -24,9 +24,11 @@ function seleciona(elem) {
 }
 
 function mostrarResultado() {
+    $("#resultado").removeClass("hide");
+    $("#resultado").addClass(".bbb-container-center");
     $("#participantes").addClass("hide");
     $("#acoesVotacao").addClass("hide");
-    $("#resultado").removeClass("hide");
+    $("#acoesVotacao").addClass("hide");
 
     $.get('/votacao/situacao', function(data) {
         var situacao = $.parseJSON(data);
@@ -49,7 +51,6 @@ function votar() {
             .error(function() {
         console.log("Não foi possível contabilizar o voto.");
     });
-    mostrarResultado();
 }
 
 //timer
