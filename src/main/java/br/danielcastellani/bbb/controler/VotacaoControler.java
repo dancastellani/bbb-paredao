@@ -4,15 +4,11 @@
  */
 package br.danielcastellani.bbb.controler;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import br.danielcastellani.bbb.ContextoAplicacao;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.service.VotacaoService;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 /**
