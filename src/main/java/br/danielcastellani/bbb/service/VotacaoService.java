@@ -6,6 +6,7 @@ package br.danielcastellani.bbb.service;
 
 import br.danielcastellani.bbb.dao.VotacaoDAO;
 import br.danielcastellani.bbb.model.PacoteDeVotos;
+import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.model.Votacao;
 
 /**
@@ -46,6 +47,10 @@ public class VotacaoService {
      */
     public int getVotosEsquerda() {
         return votosEsquerda;
+    }
+
+    public SituacaoVotacao getSituacaoVotacao() {
+        return votacaoDAO.getSituacaoVotacao(idVotacaoCorrente);
     }
 
     public enum Participantes {

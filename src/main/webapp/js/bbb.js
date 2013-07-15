@@ -1,29 +1,76 @@
 function seleciona(elem) {
-    $(".foto").removeClass("selecionada");
+    $(".foto-clicavel").removeClass("selecionada");
     $(elem).addClass("selecionada");
     $("#votar").removeClass("hide");
 }
 
-function mostrarResultado(){
-    $("#paredao").addClass("hide");
+function mostrarResultado() {
+    $("#participantes").addClass("hide");
+    $("#acoesVotacao").addClass("hide");
     $("#resultado").removeClass("hide");
+
+    $.get('/votacao/situacao', function(data) {
+        var situacao = $.parseJSON(data);
+        $("#votosParticipanteEsquerda").text(situacao.votosEsquerda);
+        $("#votosParticipanteDireita").text(situacao.votosDireita);
+        end = new Date(new Date().getTime() + situacao.tempoRestante);
+    });
 }
 
-function votar(){
+function votar() {
     var part_selecionado = $(".foto.selecionada").attr("data");
-    $("#votado").text(part_selecionado);
-    $.post('/votar', 'part_id='+part_selecionado, function () {
-    	mostrarResultado();
+    if (part_selecionado === "esquerda") {
+        $("#votado").text("Participante 1");
+    } else if (part_selecionado === "direita") {
+        $("#votado").text("Participante 2");
+    }
+    $.post('/votacao/votar', 'part_id=' + part_selecionado, function() {
+        mostrarResultado();
     })
-    .error(function () { console.log("Não foi possível contabilizar o voto."); });
+            .error(function() {
+        console.log("Não foi possível contabilizar o voto.");
+    });
     mostrarResultado();
 }
 
 $(document).ready(function() {
-    $(".foto").click(function(e) {
+    $(".foto-clicavel").click(function(e) {
         seleciona(e.target);
     });
     $("#votar").click(function(e) {
         votar();
     });
 });
+
+//timer
+var end = new Date('16 Jul 2013');
+
+var _second = 1000;
+var _minute = _second * 60;
+var _hour = _minute * 60;
+var _day = _hour * 24;
+var timer;
+
+function showRemaining()
+{
+    var now = new Date();
+    var distance = end - now;
+    if (distance < 0) {
+        // handle expiry here..
+        clearInterval(timer); // stop the timer from continuing ..
+        //alert('Expired'); // alert a message that the timer has expired..
+    }
+    var days = Math.floor(distance / _day);
+    var hours = Math.floor((distance % _day) / _hour);
+    var minutes = Math.floor((distance % _hour) / _minute);
+    var seconds = Math.floor((distance % _minute) / _second);
+    //var milliseconds = distance % _second;
+
+    var countdownElement = document.getElementById('timer');
+    countdownElement.innerHTML = 'Tempo Restante: ' + days + 'd ' +
+            hours + 'h ' +
+            minutes + 'm ' +
+            seconds + 's ';
+}
+
+timer = setInterval(showRemaining, 1000);

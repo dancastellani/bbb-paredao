@@ -4,14 +4,12 @@
  */
 package br.danielcastellani.bbb.dao;
 
-import br.danielcastellani.bbb.ContextoAplicacao;
+import static br.danielcastellani.bbb.dao.ConexaoBD.connect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

@@ -47,14 +47,16 @@ public class ContextoAplicacao implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("===================================");
         System.out.println("inicializando BBB");
+        
+        carregarDriverJDBC();
 
         ContextoAplicacao.contexto = this;
         map = new HashMap<String, Object>();
         VotacaoDAO votacaoDAO = getBean(VotacaoDAOImpl.class);
         VotacaoService votacaoService = getBean(VotacaoService.class);
         votacaoService.setVotacaoDAO(votacaoDAO);
+        votacaoService.inicializaVotacao();
 
-        carregarDriverJDBC();
 
         System.out.println("ok");
         System.out.println("===================================");
