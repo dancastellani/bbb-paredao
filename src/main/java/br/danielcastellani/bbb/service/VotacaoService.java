@@ -34,6 +34,20 @@ public class VotacaoService {
         this.votosEsquerda = 0;
     }
 
+    /**
+     * @return the votosDireita
+     */
+    public int getVotosDireita() {
+        return votosDireita;
+    }
+
+    /**
+     * @return the votosEsquerda
+     */
+    public int getVotosEsquerda() {
+        return votosEsquerda;
+    }
+
     public enum Participantes {
 
         esquerda, direita;
@@ -52,10 +66,10 @@ public class VotacaoService {
             System.out.println("====> Voto contabilizado!");
         }
 
-        System.out.println("Votos atuais:");
-        System.out.println("votosEsquerda = " + votosEsquerda);
-        System.out.println("votosDireita = " + votosDireita);
-        System.out.println("Tempo restante: " + (finalDaVotacao - System.currentTimeMillis()) + " milissegundos");
+        System.out.print("Votos atuais:");
+        System.out.print("  Esquerda = " + votosEsquerda);
+        System.out.print("  Direita = " + votosDireita);
+        System.out.println("    Tempo restante: " + ((finalDaVotacao - System.currentTimeMillis()) / 1000) + " segundos");
 
     }
 

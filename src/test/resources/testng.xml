@@ -10,6 +10,7 @@
     <test name="Testes" verbose="1" preserve-order="true">
         <classes>
             <class name="br.danielcastellani.bbb.dao.VotacaoDAOTest"/>
+            <class name="br.danielcastellani.bbb.service.VotacaoServiceTest"/>
         </classes>
     </test>
 </suite>
