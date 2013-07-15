@@ -25,16 +25,13 @@ public class VotacaoControler {
 
     public void votar(HttpServletRequest request) {
         String participanteVotado = (String) request.getParameter("part_id");
-        System.out.println("participanteVotado = " + participanteVotado);
+//        System.out.println("participanteVotado = " + participanteVotado);
 
         if ("esquerda".equals(participanteVotado)) {
             votacaoService.votarEm(VotacaoService.Participantes.esquerda);
         } else if ("direita".equals(participanteVotado)) {
             votacaoService.votarEm(VotacaoService.Participantes.direita);
         }
-
-        //remover para deixar a cada espaço de tempo
-        votacaoService.salvaVotacaoAtual();
     }
 
     public String getSituacaoVotacao() {

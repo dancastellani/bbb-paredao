@@ -78,13 +78,13 @@ public class VotacaoService {
             } else if (Participantes.esquerda == participante) {
                 votosEsquerda++;
             }
-            System.out.println("====> Voto contabilizado!");
+//            System.out.println("====> Voto contabilizado!");
         }
 
-        System.out.print("Votos atuais:");
-        System.out.print("  Esquerda = " + votosEsquerda);
-        System.out.print("  Direita = " + votosDireita);
-        System.out.println("    Tempo restante: " + ((finalDaVotacao - System.currentTimeMillis()) / 1000) + " segundos");
+//        System.out.print("Votos atuais:");
+//        System.out.print("  Esquerda = " + votosEsquerda);
+//        System.out.print("  Direita = " + votosDireita);
+//        System.out.println("    Tempo restante: " + ((finalDaVotacao - System.currentTimeMillis()) / 1000) + " segundos");
 
     }
 

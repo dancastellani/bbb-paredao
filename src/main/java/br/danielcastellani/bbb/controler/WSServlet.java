@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author DanCastellani
  */
-public class FrontServlet extends HttpServlet {
+public class WSServlet extends HttpServlet {
 
     private VotacaoControler votacaoControler;
 
-    public FrontServlet() {
+    public WSServlet() {
         this.votacaoControler = ContextoAplicacao.getContexto().getBean(VotacaoControler.class);
     }
 

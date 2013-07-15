@@ -6,13 +6,18 @@ package br.danielcastellani.bbb;
 
 import br.danielcastellani.bbb.dao.VotacaoDAO;
 import br.danielcastellani.bbb.dao.VotacaoDAOImpl;
+import br.danielcastellani.bbb.job.SalvarVotosJob;
 import br.danielcastellani.bbb.service.VotacaoService;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerUtils;
+import org.quartz.impl.StdSchedulerFactory;
 
 /**
  *
@@ -47,7 +52,7 @@ public class ContextoAplicacao implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("===================================");
         System.out.println("inicializando BBB");
-        
+
         carregarDriverJDBC();
 
         ContextoAplicacao.contexto = this;
@@ -57,13 +62,25 @@ public class ContextoAplicacao implements ServletContextListener {
         votacaoService.setVotacaoDAO(votacaoDAO);
         votacaoService.inicializaVotacao();
 
+        inicializaTarefaSalvarVotos();
 
         System.out.println("ok");
         System.out.println("===================================");
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            // Grab the Scheduler instance from the Factory 
+            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+
+            // and start it off
+            scheduler.start();
+
+            scheduler.shutdown();
+
+        } catch (SchedulerException se) {
+            throw new RuntimeException(se);
+        }
     }
 
     public static void carregarDriverJDBC() {
@@ -71,6 +88,24 @@ public class ContextoAplicacao implements ServletContextListener {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException ex) {
             throw new RuntimeException("Erro ao conectar com o banco.", ex);
+        }
+    }
+
+    private void inicializaTarefaSalvarVotos() {
+        try {
+            JobDetail job = new JobDetail();
+            job.setName("SalvarVotos");
+            job.setJobClass(SalvarVotosJob.class);
+
+            Trigger trigger = TriggerUtils.makeSecondlyTrigger(1);
+            trigger.setName("cadaUmSegundo");
+
+            //schedule it
+            Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+            scheduler.start();
+            scheduler.scheduleJob(job, trigger);
+        } catch (SchedulerException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }
