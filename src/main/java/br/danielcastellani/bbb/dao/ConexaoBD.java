@@ -23,13 +23,13 @@ public class ConexaoBD {
             connection = connect();
             PreparedStatement ps = connection.prepareStatement(query);
             for (int i = 0; i < parametros.length; i++) {
-                //o indice das queries começa em 1 e nao em 0, como no java.
+                //o indice das queries comeca em 1 e nao em 0, como no java.
                 ps.setString(i + 1, parametros[i]);
             }
             int i = ps.executeUpdate();
             connection.close();
             if (i == 0) {
-                throw new SQLException("Não foram inseridos registros.");
+                throw new SQLException("Nao foram inseridos registros.");
             }
         } catch (SQLException ex) {
             throw new SQLException("Erro ao executar consulta <" + query + ">.", ex);
