@@ -4,9 +4,12 @@
  */
 package br.danielcastellani.bbb.dao;
 
-import br.danielcastellani.bbb.dao.VotacaoDAOImpl;
+import br.danielcastellani.bbb.model.ResumoVotos;
 import br.danielcastellani.bbb.model.Votacao;
+import br.danielcastellani.bbb.model.Votos;
+import java.util.List;
 import static org.testng.Assert.*;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -15,11 +18,29 @@ import org.testng.annotations.Test;
  */
 public class VotacaoDAOTest {
 
+    VotacaoDAO votacaoDAO;
+
+    @BeforeTest
+    public void setUp() {
+        votacaoDAO = new VotacaoDAOImpl();
+//        votacaoDAO.salvar(new Votos(10, 10, System.currentTimeMillis(), 0));
+    }
+    
+//    @AfterTest
+//    public void setUp() {
+//        votacaoDAO = new VotacaoDAOImpl();
+//        votacaoDAO.removeVotos(0);
+//    }
+
     @Test
     public void recuperaVotacaoCorrenteComSucesso() {
-        VotacaoDAOImpl votacaoDAOImpl = new VotacaoDAOImpl();
-        Votacao votacaoCorrente = votacaoDAOImpl.getVotacaoCorrente();
-
+        Votacao votacaoCorrente = votacaoDAO.getVotacaoCorrente();
         assertNotNull(votacaoCorrente);
+    }
+
+    @Test
+    public void quandoRecuperaVotosNaoDeveSerNull() {
+        List<ResumoVotos> votosDeVotacaoAgrupadosHora = votacaoDAO.getVotosDeVotacaoAgrupadosHora(1);
+        assertNotNull(votosDeVotacaoAgrupadosHora);
     }
 }

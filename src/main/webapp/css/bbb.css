@@ -25,11 +25,6 @@
     border-top: 1px solid #d6d6d6;
 }
 
-/*#myModalVotacao .modal-body {
-    width:620px;
-    left:36%;
-}*/
-
 .foto {
     width: 280px;
     height: 290px;
@@ -68,4 +63,42 @@
 #timer{
     border-radius: 4px;
     border: 1px solid #ff9a00;
+}
+
+.com-borda{
+    margin: 15px 0;
+    padding: 39px 19px 14px;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.caixa-resumo{
+    width: 480px;
+}
+
+.titulo-caixa{
+    text-align: center;
+}
+
+.foto-menor {
+    width: 200px;
+    height: 210px;
+    line-height: 290px;
+    display: inline-block;
+    margin: 4px;
+    border: 1px solid #dddddd;
+}
+
+.foto-esquerda-menor {
+    background-image: url("../img/sprite.png");
+    background-repeat: no-repeat;
+    background-position: -40px -180px;
+}
+
+.foto-direita-menor {
+    background-image: url("../img/sprite.png");
+    background-repeat: no-repeat;
+    background-position: -380px -180px;
 }

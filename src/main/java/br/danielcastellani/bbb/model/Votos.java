@@ -10,14 +10,14 @@ import java.sql.Date;
  *
  * @author DanCastellani
  */
-public class PacoteDeVotos {
+public class Votos {
 
     private int votosParticipanteEsquerda = 0;
     private int votosParticipanteDireita = 0;
     private Date horaRecebimento;
     private int idVotacao;
 
-    public PacoteDeVotos(int votosEsquerda, int votosDireita, long currentTimeMillis, int idVotacao) {
+    public Votos(int votosEsquerda, int votosDireita, long currentTimeMillis, int idVotacao) {
         this.votosParticipanteEsquerda = votosEsquerda;
         this.votosParticipanteDireita = votosDireita;
         this.horaRecebimento = new Date(currentTimeMillis);

@@ -5,7 +5,8 @@
 package br.danielcastellani.bbb.dao;
 
 import static br.danielcastellani.bbb.dao.ConexaoBD.connect;
-import br.danielcastellani.bbb.model.PacoteDeVotos;
+import br.danielcastellani.bbb.model.ResumoVotos;
+import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.model.Votacao;
 import java.sql.Connection;
@@ -13,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -45,7 +48,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
         }
     }
 
-    public void salvar(PacoteDeVotos votos) {
+    public void salvar(Votos votos) {
         final String query = "insert into votos (idvotacao, votosesquerda, votosdireita, horarecebimento) values (?, ?, ?, ?)";
 
         try {
@@ -66,7 +69,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
         }
     }
 
-    public SituacaoVotacao getSituacaoVotacao(int idVotacaoCorrente) {
+    public SituacaoVotacao getSituacaoVotacao(int idVotacao) {
         final String query = "select sum(votosEsquerda) as votosEsquerda, sum(votosDireita) as votosDireita, fim \n"
                 + "from votos join votacao on votos.idvotacao=votacao.id\n"
                 + "where idvotacao = ?\n"
@@ -75,7 +78,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
         try {
             Connection connection = connect();
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, idVotacaoCorrente);
+            ps.setInt(1, idVotacao);
             ResultSet rs = ps.executeQuery();
             rs.next();
 
@@ -91,6 +94,40 @@ public class VotacaoDAOImpl implements VotacaoDAO {
             connection.close();
 
             return situacaoVotacao;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
+        }
+    }
+
+    @Override
+    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) {
+        final String query = "select 	TO_CHAR(horaRecebimento,'hh24') as hora,"
+                + "	sum(votosEsquerda) as votosEsquerda,"
+                + " 	sum(votosDireita) as votosDireita "
+                + "from votos "
+                + "where idvotacao = ? "
+                + "group by hora "
+                + "order by hora";
+
+        try {
+            Connection connection = connect();
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, idVotacao);
+            ResultSet rs = ps.executeQuery();
+
+            List<ResumoVotos> votosPorHora = new LinkedList<ResumoVotos>();
+            ResumoVotos votos;
+            while (rs.next()) {
+                votos = new ResumoVotos();
+                votos.setVotosEsquerda(rs.getInt("votosEsquerda"));
+                votos.setVotosDireita(rs.getInt("votosDireita"));
+                votos.setHora(rs.getString("hora"));
+                votosPorHora.add(votos);
+            }
+
+            connection.close();
+
+            return votosPorHora;
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
         }

@@ -6,7 +6,7 @@ package br.danielcastellani.bbb.service;
 
 import br.danielcastellani.bbb.dao.VotacaoDAO;
 import br.danielcastellani.bbb.dao.VotacaoDAOImpl;
-import br.danielcastellani.bbb.model.PacoteDeVotos;
+import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.Votacao;
 import java.sql.Date;
 import static org.mockito.Mockito.*;
@@ -77,20 +77,20 @@ public class VotacaoServiceTest {
     @Test
     public void quandoSalvarVotacaoMasNaoHouverNovosVotosNaoDeveSalvar() {
         votacaoService.salvaVotacaoAtual();
-        verify(votacaoDAO, times(0)).salvar(any(PacoteDeVotos.class));
+        verify(votacaoDAO, times(0)).salvar(any(Votos.class));
     }
 
     @Test
     public void quandoSalvarVotacaoMasHouverNovosVotosParaDireitaDeveSalvar() {
         votacaoService.votarEm(VotacaoService.Participantes.direita);
         votacaoService.salvaVotacaoAtual();
-        verify(votacaoDAO).salvar(any(PacoteDeVotos.class));
+        verify(votacaoDAO).salvar(any(Votos.class));
     }
 
     @Test
     public void quandoSalvarVotacaoMasHouverNovosVotosParaEsquerdaDeveSalvar() {
         votacaoService.votarEm(VotacaoService.Participantes.esquerda);
         votacaoService.salvaVotacaoAtual();
-        verify(votacaoDAO).salvar(any(PacoteDeVotos.class));
+        verify(votacaoDAO).salvar(any(Votos.class));
     }
 }

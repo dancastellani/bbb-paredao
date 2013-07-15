@@ -5,9 +5,11 @@
 package br.danielcastellani.bbb.service;
 
 import br.danielcastellani.bbb.dao.VotacaoDAO;
-import br.danielcastellani.bbb.model.PacoteDeVotos;
+import br.danielcastellani.bbb.model.ResumoVotos;
+import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.model.Votacao;
+import java.util.List;
 
 /**
  * Um contador thread safe para receber cada voto e armazenar até que sejam
@@ -53,6 +55,14 @@ public class VotacaoService {
         return votacaoDAO.getSituacaoVotacao(idVotacaoCorrente);
     }
 
+    public Votacao getVotacaoCorrente() {
+        return votacaoDAO.getVotacaoCorrente();
+    }
+
+    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) {
+        return votacaoDAO.getVotosDeVotacaoAgrupadosHora(idVotacao);
+    }
+
     public enum Participantes {
 
         esquerda, direita;
@@ -78,8 +88,8 @@ public class VotacaoService {
 
     }
 
-    public synchronized PacoteDeVotos getVotosContabilizadosParaReiniciarContagem() {
-        PacoteDeVotos pacoteDeVotos = new PacoteDeVotos(votosEsquerda, votosDireita, System.currentTimeMillis(), idVotacaoCorrente);
+    public synchronized Votos getVotosContabilizadosParaReiniciarContagem() {
+        Votos pacoteDeVotos = new Votos(votosEsquerda, votosDireita, System.currentTimeMillis(), idVotacaoCorrente);
         this.votosDireita = 0;
         this.votosEsquerda = 0;
 
@@ -87,7 +97,7 @@ public class VotacaoService {
     }
 
     public void salvaVotacaoAtual() {
-        PacoteDeVotos votos = getVotosContabilizadosParaReiniciarContagem();
+        Votos votos = getVotosContabilizadosParaReiniciarContagem();
         if (votos.getVotosParticipanteEsquerda() != 0 || votos.getVotosParticipanteDireita() != 0) {
             votacaoDAO.salvar(votos);
         }

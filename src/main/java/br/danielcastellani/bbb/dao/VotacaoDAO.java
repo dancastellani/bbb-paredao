@@ -4,9 +4,11 @@
  */
 package br.danielcastellani.bbb.dao;
 
-import br.danielcastellani.bbb.model.PacoteDeVotos;
+import br.danielcastellani.bbb.model.ResumoVotos;
+import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.model.Votacao;
+import java.util.List;
 
 /**
  *
@@ -16,7 +18,9 @@ public interface VotacaoDAO {
     
     public Votacao getVotacaoCorrente();
 
-    public void salvar(PacoteDeVotos votos);
+    public void salvar(Votos votos);
 
     public SituacaoVotacao getSituacaoVotacao(int idVotacaoCorrente);
+
+    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao);
 }
