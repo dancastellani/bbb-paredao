@@ -57,7 +57,7 @@
 
             <div id="acoesVotacao" class="row bbb-container-botton">
                 <div class="span8">
-                    <a class="btn centralizado hide" id="votar">Eliminar</a>
+                    <a class="btn btn-large btn-primary hide" id="votar">Envie seu voto agora</a>
                 </div>
             </div>
         </div>
