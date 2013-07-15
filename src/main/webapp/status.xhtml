@@ -6,7 +6,7 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <head>
-        <title>BBB Votacao</title>
+        <title>BBB Votação</title>
         <link href="css/bootstrap.min.css" rel="stylesheet"></link>
         <link href="css/bbb.css" rel="stylesheet"></link>
 
@@ -16,13 +16,11 @@
     </head>
     <body>
         <h1>Big Brother Brasil</h1>
-        <h3>Resumo do Paredão</h3>
 
         <div id="resumoVotacao" class="row-fluid">
-
-            <div class="row-fluid">
-                <div id="infoGeral" class="com-borda caixa-resumo span3">
-                    <h3 class="titulo-caixa">Informacoes Gerais</h3>
+            <div id="colunaEsquerda" class="span4">
+                <div id="infoGeral" class="com-borda caixa-resumo row" style="width: 90%">
+                    <h3 class="titulo-caixa">Resumo do Paredão</h3>
                     <table class="table table-striped">
                         <tr>
                             <th>Início da Votação</th>
@@ -36,30 +34,7 @@
                         </tr>
                     </table>
                 </div>  
-
-            </div>
-
-            <div class="row-fluid">
-                <div id="infoParticipantes" class="com-borda span3">
-                    <h3 class="titulo-caixa">Votos dos Participantes</h3>
-                    <div class="row">
-                        <table>
-                            <tr>
-                                <th>#{resumoMB.votosTotaisEsquerda} votos</th>
-                                <th>#{resumoMB.votosTotaisDireita} votos</th>
-                            </tr>
-                            <tr>          
-                                <td>
-                                    <div class="foto-menor img-rounded foto-esquerda-menor" data="esquerda"></div>
-                                </td>
-                                <td>
-                                    <div class="foto-menor img-rounded  foto-direita-menor" data="direita"></div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div id="votosPorHora" class="com-borda caixa-resumo span3">
+                <div id="votosPorHora" class="com-borda caixa-resumo row" style="width: 90%">
 
                     <h3 class="titulo-caixa">Votos por Hora</h3>
                     <table class="table table-striped">
@@ -78,7 +53,26 @@
                             </tr>
                         </c:forEach>  
                     </table>
-                </div>     
+                </div>   
+            </div>
+
+            <div class="span3">
+                <!--<div class="span3 com-borda" style="background-color: #ffcc00"></div>-->
+                                    <div id="infoParticipantes" class="com-borda span12">
+                                        <h3 class="titulo-caixa">Votos dos Participantes</h3>
+                                        <div class="row">
+                                            <table>
+                                                <tr>
+                                                    <th>#{resumoMB.votosTotaisEsquerda} votos</th>
+                                                    <th>#{resumoMB.votosTotaisDireita} votos</th>
+                                                </tr>
+                                                <tr>          
+                                                    <td> <div class="foto-menor img-rounded foto-esquerda-menor" data="esquerda"></div> </td>
+                                                    <td> <div class="foto-menor img-rounded  foto-direita-menor" data="direita"></div> </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
             </div>
         </div>        
     </body>
