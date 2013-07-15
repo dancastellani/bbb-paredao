@@ -1,5 +1,7 @@
 .bbb-container {
     width: 620px;
+    border: 3px;
+    background-color: #d6d6d6
 }
 
 .bbb-container-top{

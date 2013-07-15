@@ -2,10 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.bbb;
+package br.danielcastellani.bbb.service;
 
 import br.danielcastellani.bbb.dao.VotacaoDAO;
-import br.danielcastellani.bbb.dao.VotacaoDAOImpl;
 import br.danielcastellani.bbb.model.PacoteDeVotos;
 import br.danielcastellani.bbb.model.Votacao;
 
@@ -15,11 +14,24 @@ import br.danielcastellani.bbb.model.Votacao;
  *
  * @author DanCastellani
  */
-public class ControladorDeVotos {
+public class VotacaoService {
 
     private int votosDireita;
     private int votosEsquerda;
     private long finalDaVotacao; //para otimizar a comparacao a cada voto
+    private VotacaoDAO votacaoDAO;
+
+    /**
+     * @param votacaoDAO the votacaoDAO to set
+     */
+    public void setVotacaoDAO(VotacaoDAO votacaoDAO) {
+        this.votacaoDAO = votacaoDAO;
+    }
+
+    public void inicializaVotacao() {
+        Votacao votacaoCorrente = votacaoDAO.getVotacaoCorrente();
+        this.finalDaVotacao = votacaoCorrente.getFim().getTime();
+    }
 
     public enum Participantes {
 
@@ -27,13 +39,18 @@ public class ControladorDeVotos {
     }
 
     public synchronized void votarEm(Participantes participante) {
+        if (finalDaVotacao == 0) {
+            inicializaVotacao();
+        }
         if (System.currentTimeMillis() < finalDaVotacao) {
             if (Participantes.direita == participante) {
                 votosDireita++;
             } else if (Participantes.esquerda == participante) {
                 votosEsquerda++;
             }
+            System.out.println("====> Voto contabilizado!");
         }
+
         System.out.println("Votos atuais:");
         System.out.println("votosEsquerda = " + votosEsquerda);
         System.out.println("votosDireita = " + votosDireita);
@@ -46,19 +63,9 @@ public class ControladorDeVotos {
         this.votosEsquerda = 0;
         return pacoteDeVotos;
     }
-    private static ControladorDeVotos controladorDeVotos;
 
-    //TODO: rever essa inicializacao
-    private ControladorDeVotos() {
-        VotacaoDAO votacaoDAO = new VotacaoDAOImpl();
-        Votacao votacaoCorrente = votacaoDAO.getVotacaoCorrente();
-        finalDaVotacao = votacaoCorrente.getFim().getTime();
-    }
-
-    public synchronized static ControladorDeVotos getInstance() {
-        if (controladorDeVotos == null) {
-            controladorDeVotos = new ControladorDeVotos();
-        }
-        return controladorDeVotos;
-    }
+//    public void salvaVotacaoAtual() {
+//        PacoteDeVotos votos = getVotosContabilizadosParaReiniciarContagem();
+//        votacaoDAO.salvar(votos);
+//    }
 }

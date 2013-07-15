@@ -4,8 +4,14 @@
  */
 package br.danielcastellani.bbb.dao;
 
+import static br.danielcastellani.bbb.dao.ConexaoBD.connect;
+import br.danielcastellani.bbb.model.PacoteDeVotos;
 import br.danielcastellani.bbb.model.Votacao;
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -13,13 +19,53 @@ import java.util.Date;
  */
 public class VotacaoDAOImpl implements VotacaoDAO {
 
-    //TODO: refatorar para pegar do banco
     public Votacao getVotacaoCorrente() {
-        Votacao votacao = new Votacao();
-        votacao.setFim(new Date(System.currentTimeMillis() + 1000 * 60 * 10));
-        votacao.setInicio(new Date(System.currentTimeMillis() - 1000 * 60 * 10));
-        votacao.setNomeDireita("Participante 1");
-        votacao.setNomeEsquerda("Participante 2");
-        return votacao;
+        String query = "select * from votacao where id = ?";
+        Connection connection = null;
+        try {
+            connection = connect();
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, 1);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            
+            Votacao votacao = new Votacao();
+            votacao.setId(rs.getInt("id"));
+            votacao.setFim(rs.getDate("fim"));
+            votacao.setInicio(rs.getDate("inicio"));
+            votacao.setNomeDireita(rs.getString("nomeDireita"));
+            votacao.setNomeEsquerda(rs.getString("nomeEsquerda"));
+
+            connection.close();
+
+            return votacao;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
+        }
     }
+
+//    public void salvar(PacoteDeVotos votos) {
+//                String query = "select * from votacao where id = ?";
+//        Connection connection = null;
+//        try {
+//            connection = connect();
+//            PreparedStatement ps = connection.prepareStatement(query);
+//            ps.setInt(1, 1);
+//            ResultSet rs = ps.executeQuery();
+//            rs.next();
+//            
+//            Votacao votacao = new Votacao();
+//            votacao.setId(rs.getInt("id"));
+//            votacao.setFim(rs.getDate("fim"));
+//            votacao.setInicio(rs.getDate("inicio"));
+//            votacao.setNomeDireita(rs.getString("nomeDireita"));
+//            votacao.setNomeEsquerda(rs.getString("nomeEsquerda"));
+//
+//            connection.close();
+//
+//            return votacao;
+//        } catch (SQLException ex) {
+//            throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
+//        }
+//    }
 }

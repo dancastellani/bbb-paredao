@@ -21,13 +21,15 @@
           <string>META-INF/context.xml</string>
           <string>WEB-INF/web.xml</string>
           <string>WEB-INF/classes/.netbeans_automatic_build</string>
-          <string>WEB-INF/classes/br/danielcastellani/bbb/ControladorDeVotos$Participantes.class</string>
-          <string>WEB-INF/classes/br/danielcastellani/bbb/ControladorDeVotos.class</string>
+          <string>WEB-INF/classes/br/danielcastellani/bbb/ContextoAplicacao.class</string>
+          <string>WEB-INF/classes/br/danielcastellani/bbb/controler/VotacaoControlador.class</string>
+          <string>WEB-INF/classes/br/danielcastellani/bbb/dao/ConexaoBD.class</string>
           <string>WEB-INF/classes/br/danielcastellani/bbb/dao/VotacaoDAO.class</string>
           <string>WEB-INF/classes/br/danielcastellani/bbb/dao/VotacaoDAOImpl.class</string>
           <string>WEB-INF/classes/br/danielcastellani/bbb/model/PacoteDeVotos.class</string>
           <string>WEB-INF/classes/br/danielcastellani/bbb/model/Votacao.class</string>
-          <string>WEB-INF/classes/br/danielcastellani/bbb/VotacaoServlet.class</string>
+          <string>WEB-INF/classes/br/danielcastellani/bbb/service/VotacaoService$Participantes.class</string>
+          <string>WEB-INF/classes/br/danielcastellani/bbb/service/VotacaoService.class</string>
           <string>WEB-INF/classes/db/migration/V1__schema_inicial.sql</string>
           <string>WEB-INF/classes/db/migration/V2__carga_inicial.sql</string>
           <string>WEB-INF/lib/jetty-servlet-7.1.6.v20100715.jar</string>
@@ -37,6 +39,7 @@
           <string>WEB-INF/lib/jetty-http-7.1.6.v20100715.jar</string>
           <string>WEB-INF/lib/jetty-io-7.1.6.v20100715.jar</string>
           <string>WEB-INF/lib/jetty-util-7.1.6.v20100715.jar</string>
+          <string>WEB-INF/lib/postgresql-8.2-504.jdbc3.jar</string>
         </pathsSet>
       </path-set>
     </entry>
@@ -72,6 +75,29 @@
         <version>2.1</version>
         <type>jar</type>
         <scope>provided</scope>
+        <exclusions/>
+        <optional>false</optional>
+      </dependency>
+    </org.apache.maven.plugin.war.util.DependencyInfo>
+    <org.apache.maven.plugin.war.util.DependencyInfo>
+      <dependency>
+        <groupId>postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>8.2-504.jdbc3</version>
+        <type>jar</type>
+        <scope>compile</scope>
+        <exclusions/>
+        <optional>false</optional>
+      </dependency>
+      <targetFileName>postgresql-8.2-504.jdbc3.jar</targetFileName>
+    </org.apache.maven.plugin.war.util.DependencyInfo>
+    <org.apache.maven.plugin.war.util.DependencyInfo>
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>6.1.1</version>
+        <type>jar</type>
+        <scope>test</scope>
         <exclusions/>
         <optional>false</optional>
       </dependency>

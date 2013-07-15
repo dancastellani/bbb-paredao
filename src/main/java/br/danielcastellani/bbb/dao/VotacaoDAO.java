@@ -13,4 +13,6 @@ import br.danielcastellani.bbb.model.Votacao;
 public interface VotacaoDAO {
     
     public Votacao getVotacaoCorrente();
+
+//    public void salvar(PacoteDeVotos votos);
 }

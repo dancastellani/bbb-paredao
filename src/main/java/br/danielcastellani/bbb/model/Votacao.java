@@ -4,19 +4,30 @@
  */
 package br.danielcastellani.bbb.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
  * @author DanCastellani
  */
 public class Votacao {
-    
+
     private int id;
     private String nomeEsquerda;
     private String nomeDireita;
     private Date inicio;
     private Date fim;
+
+    public Votacao(int id, String nomeEsquerda, String nomeDireita, Date inicio, Date fim) {
+        this.id = id;
+        this.nomeEsquerda = nomeEsquerda;
+        this.nomeDireita = nomeDireita;
+        this.inicio = inicio;
+        this.fim = fim;
+    }
+
+    public Votacao() {
+    }
 
     /**
      * @return the id
