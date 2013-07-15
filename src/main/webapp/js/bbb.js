@@ -32,8 +32,10 @@ function mostrarResultado() {
 
     $.get('/votacao/situacao', function(data) {
         var situacao = $.parseJSON(data);
-        $("#votosParticipanteEsquerda").text(situacao.votosEsquerda);
-        $("#votosParticipanteDireita").text(situacao.votosDireita);
+        var percentualEsquerda = situacao.votosEsquerda / (situacao.votosEsquerda + situacao.votosDireita) * 100;
+        var percentualDireita = situacao.votosDireita / (situacao.votosEsquerda + situacao.votosDireita) * 100;
+        $("#votosParticipanteEsquerda").text(Math.round(percentualEsquerda)+ "%");
+        $("#votosParticipanteDireita").text(Math.round(percentualDireita)+ "%");
         end = new Date(new Date().getTime() + situacao.tempoRestante);
     });
 }
