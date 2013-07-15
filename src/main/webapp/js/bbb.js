@@ -1,3 +1,22 @@
+$(document).ready(function() {
+    $(".foto-clicavel").click(function(e) {
+        seleciona(e.target);
+    });
+    $("#votar").click(function(e) {
+        votar();
+    });
+    $("#mostrarParedao").click(function(e) {
+        mostrarParedao();
+    });
+});
+
+function mostrarParedao() {
+    $("#bemVindo").addClass("hide");
+    $("#bemVindo").removeClass("bbb-container");
+    $("#paredao").removeClass("hide");
+    $("#paredao").addClass("bbb-container");
+}
+
 function seleciona(elem) {
     $(".foto-clicavel").removeClass("selecionada");
     $(elem).addClass("selecionada");
@@ -32,15 +51,6 @@ function votar() {
     });
     mostrarResultado();
 }
-
-$(document).ready(function() {
-    $(".foto-clicavel").click(function(e) {
-        seleciona(e.target);
-    });
-    $("#votar").click(function(e) {
-        votar();
-    });
-});
 
 //timer
 var end = new Date('16 Jul 2013');
