@@ -104,7 +104,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
 
     @Override
     public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) {
-        final String query = "select 	HOUR(horaRecebimento) as hora,"
+        final String query = "select HOUR(horaRecebimento) as hora,"
                 + "	sum(votosEsquerda) as votosEsquerda,"
                 + " 	sum(votosDireita) as votosDireita "
                 + "from votos "

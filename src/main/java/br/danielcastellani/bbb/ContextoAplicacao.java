@@ -8,12 +8,14 @@ import br.danielcastellani.bbb.dao.VotacaoDAO;
 import br.danielcastellani.bbb.dao.VotacaoDAOImpl;
 import br.danielcastellani.bbb.job.SalvarVotosJob;
 import br.danielcastellani.bbb.service.VotacaoService;
+import com.googlecode.flyway.core.Flyway;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.management.RuntimeErrorException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.quartz.JobDetail;
@@ -56,6 +58,8 @@ public class ContextoAplicacao implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("===================================");
         System.out.println("inicializando BBB");
+
+        executaMigracao();
 
         carregarDriverJDBC();
 
@@ -114,6 +118,19 @@ public class ContextoAplicacao implements ServletContextListener {
             scheduler.start();
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void executaMigracao() {
+        try {
+            Properties prop = new Properties();
+            prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("db/database.properties"));
+
+            Flyway flyway = new Flyway();
+            flyway.setDataSource(prop.getProperty("database.url"), prop.getProperty("database.user"), prop.getProperty("database.password"));
+            flyway.migrate();
+        } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }

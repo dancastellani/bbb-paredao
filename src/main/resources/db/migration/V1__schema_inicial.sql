@@ -16,3 +16,4 @@ create table votos (
   
   foreign key (idVotacao) references votacao(id)
 );
+
