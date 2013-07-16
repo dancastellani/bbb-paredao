@@ -30,12 +30,12 @@ function mostrarResultado() {
     $("#acoesVotacao").addClass("hide");
     $("#acoesVotacao").addClass("hide");
 
-    $.get('/votacao/situacao', function(data) {
+    $.get(window.location.pathname + 'votacao/situacao', function(data) {
         var situacao = $.parseJSON(data);
         var percentualEsquerda = situacao.votosEsquerda / (situacao.votosEsquerda + situacao.votosDireita) * 100;
         var percentualDireita = situacao.votosDireita / (situacao.votosEsquerda + situacao.votosDireita) * 100;
-        $("#votosParticipanteEsquerda").text(Math.round(percentualEsquerda)+ "%");
-        $("#votosParticipanteDireita").text(Math.round(percentualDireita)+ "%");
+        $("#votosParticipanteEsquerda").text(Math.round(percentualEsquerda) + "%");
+        $("#votosParticipanteDireita").text(Math.round(percentualDireita) + "%");
         end = new Date(new Date().getTime() + situacao.tempoRestante);
     });
 }
@@ -47,7 +47,7 @@ function votar() {
     } else if (part_selecionado === "direita") {
         $("#votado").text("Participante 2");
     }
-    $.post('/votacao/votar', 'part_id=' + part_selecionado, function() {
+    $.post(window.location.pathname + 'votacao/votar', 'part_id=' + part_selecionado, function() {
         mostrarResultado();
     })
             .error(function() {
