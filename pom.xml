@@ -79,11 +79,14 @@
     </profiles>
     
     <dependencies>
+        <!-- Jetty -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
             <version>${jetty.version}</version>
         </dependency>
+        <!-- FIM Jetty -->
+        
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -96,18 +99,8 @@
             <version>2.1</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.8.4</version>
-        </dependency>
             
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.1.1</version>
-            <scope>test</scope>
-        </dependency>
+        <!-- JSF -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
@@ -136,6 +129,7 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <!-- FIM JSF -->
  
         <!-- Tomcat 6 need this -->
         <dependency>
@@ -166,11 +160,29 @@
             <artifactId>jta</artifactId>
             <version>1.1</version>
         </dependency>
+        <!-- FIM Quartz -->
+        
+        <!-- Flyway -->
         <dependency>
             <groupId>com.googlecode.flyway</groupId>
             <artifactId>flyway-core</artifactId>
             <version>2.2</version>
         </dependency>
+        <!-- FIM Flyway -->
+        
+        <!-- Test - TestNG + Mockito -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.1.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.8.4</version>
+        </dependency>
+        <!-- Test - TestNG + Mockito -->
     </dependencies>
 
     <build>
@@ -183,12 +195,13 @@
                     <!--Delete this block to have Jetty run default port (8080)-->
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>80</port>
+                            <port>9090</port>
                         </connector>
                     </connectors>
                     <contextPath>/</contextPath>
                     <scanIntervalSeconds>3</scanIntervalSeconds>
-                    
+                    <!-- Where the BeanManager is constructed.  This is where we'll later declare datasource. -->
+                    <!--<jettyEnvXml>${basedir}/src/main/resources/jetty/jetty-env.xml</jettyEnvXml>-->
                 </configuration>
             </plugin>
             <!-- flyway -->
@@ -210,13 +223,13 @@
                     <user>${database.user}</user>
                     <password>${database.password}</password>
                 </configuration>
-                <dependencies>
+                <!--                <dependencies>
                     <dependency>
                         <groupId>com.h2database</groupId>
                         <artifactId>h2</artifactId>
                         <version>1.3.170</version>
                     </dependency>
-                </dependencies>
+                </dependencies>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
