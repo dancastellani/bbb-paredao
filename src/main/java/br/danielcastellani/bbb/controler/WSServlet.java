@@ -26,11 +26,11 @@ public class WSServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String requestURI = request.getRequestURI().substring("/votacao".length());
+        String requestSemContexto = request.getRequestURI().substring(request.getContextPath().length() + "/votacao".length());
         String retorno = "";
-        if (requestURI.equals("/votar")) {
+        if (requestSemContexto.equals("/votar")) {
             votacaoControler.votar(request);
-        } else if (requestURI.equals("/situacao")) {
+        } else if (requestSemContexto.equals("/situacao")) {
             retorno = votacaoControler.getSituacaoVotacao();
         }
 
