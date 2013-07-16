@@ -6,7 +6,7 @@
     <groupId>br.danielcastellani</groupId>
     <artifactId>bbb-paredao</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>bbb-paredao</name>
     <url>http://maven.apache.org</url>
@@ -186,6 +186,7 @@
     </dependencies>
 
     <build>
+        <finalName>bbb</finalName>
         <plugins>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <head>
+        <title>Resumo Votação BBB</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+        <link href="css/bbb.css" rel="stylesheet"></link>
+
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="js/bbb.js"></script>
+    </head>
+    <body>
+        <h1>Big Brother Brasil</h1>
+        <h3>Controle de Votação</h3>
+
+        <div id="resumoVotacao" class="row-fluid">
+            <div id="colunaEsquerda" class="span4">
+                <div id="infoGeral" class="com-borda caixa-resumo row" style="width: 90%">
+                    <h3 class="titulo-caixa">Resumo do Paredão</h3>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Início da Votação</th>
+                            <th>Fim da Votação</th>
+                            <th>Votos Totais</th>
+                        </tr>
+                        <tr>
+                            <td>#{resumoMB.votacao.inicio}</td>
+                            <td>#{resumoMB.votacao.fim}</td>
+                            <td>#{resumoMB.votosTotais}</td>
+                        </tr>
+                    </table>
+                </div>  
+                <div id="votosPorHora" class="com-borda caixa-resumo row" style="width: 90%">
+
+                    <h3 class="titulo-caixa">Votos por Hora</h3>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Hora</th>
+                            <th>#{resumoMB.votacao.nomeEsquerda}</th>
+                            <th>#{resumoMB.votacao.nomeDireita}</th>
+                            <th>Total</th>
+                        </tr>
+                        <c:forEach items="${resumoMB.votosPorHora}" var="votos">  
+                            <tr>
+                                <td>#{votos.hora} hrs</td>
+                                <td>#{votos.votosEsquerda}</td>
+                                <td>#{votos.votosDireita}</td>
+                                <td>#{votos.total}</td>
+                            </tr>
+                        </c:forEach>  
+                    </table>
+                </div>   
+            </div>
+
+            <div class="span3">
+                <!--<div class="span3 com-borda" style="background-color: #ffcc00"></div>-->
+                <div id="infoParticipantes" class="com-borda span12">
+                    <h3 class="titulo-caixa">Votos dos Participantes</h3>
+                    <div class="row">
+                        <table>
+                            <tr>
+                                <th>#{resumoMB.votosTotaisEsquerda} votos (#{resumoMB.percentualVotosTotaisEsquerda})%</th>
+                                <th>#{resumoMB.votosTotaisDireita} votos (#{resumoMB.percentualVotosTotaisDireita})%</th>
+                            </tr>
+                            <tr>          
+                                <td> <div class="foto-menor img-rounded foto-esquerda-menor" data="esquerda"></div> </td>
+                                <td> <div class="foto-menor img-rounded  foto-direita-menor" data="direita"></div> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>     
+        </body>
+</html>

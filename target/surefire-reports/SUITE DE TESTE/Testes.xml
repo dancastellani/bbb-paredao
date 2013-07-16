@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite hostname="X4" name="br.danielcastellani.bbb.dao.VotacaoDAOTest" tests="11" failures="0" timestamp="16 Jul 2013 19:28:50 GMT" time="0.149" errors="0">
+  <testcase name="quandoRecuperaVotosNaoDeveSerNull" time="0.0040" classname="br.danielcastellani.bbb.dao.VotacaoDAOTest"/>
+  <testcase name="recuperaVotacaoCorrenteComSucesso" time="0.0010" classname="br.danielcastellani.bbb.dao.VotacaoDAOTest"/>
+  <testcase name="salvaVotosComSucesso" time="0.0030" classname="br.danielcastellani.bbb.dao.VotacaoDAOTest"/>
+  <testcase name="aposVotacaoTerminarNaoDeveContabilizarVotosQuandoVotarNaDireita" time="0.0020" classname="br.danielcastellani.bbb.service.VotacaoServiceTest"/>
+  <testcase name="aposVotacaoTerminarNaoDeveContabilizarVotosQuandoVotarNaEsquerda" time="0.0010" classname="br.danielcastellani.bbb.service.VotacaoServiceTest"/>
+  <testcase name="quandoSalvaVotacaoDeveReiniciarContagemCorrente" time="0.0040" classname="br.danielcastellani.bbb.service.VotacaoServiceTest"/>
+  <testcase name="quandoSalvarVotacaoMasHouverNovosVotosParaDireitaDeveSalvar" time="0.0090" classname="br.danielcastellani.bbb.service.VotacaoServiceTest"/>
+  <testcase name="quandoSalvarVotacaoMasHouverNovosVotosParaEsquerdaDeveSalvar" time="0.0010" classname="br.danielcastellani.bbb.service.VotacaoServiceTest"/>
+  <testcase name="quandoSalvarVotacaoMasNaoHouverNovosVotosNaoDeveSalvar" time="0.0010" classname="br.danielcastellani.bbb.service.VotacaoServiceTest"/>
+  <testcase name="quandoVotarNaDireitaIncrementaVotosDireita" time="0.0010" classname="br.danielcastellani.bbb.service.VotacaoServiceTest"/>
+  <testcase name="quandoVotarNaEsquerdaIncrementaVotosEsquerda" time="0.0" classname="br.danielcastellani.bbb.service.VotacaoServiceTest"/>
+</testsuite>
