@@ -56,7 +56,7 @@ function votar() {
 }
 
 //timer
-var end = new Date('16 Jul 2013');
+var end = Date.now();
 
 var _second = 1000;
 var _minute = _second * 60;
@@ -67,7 +67,7 @@ var timer;
 function showRemaining()
 {
     var now = new Date();
-    var distance = end - now;
+    var distance = end.getTime() - now.getTime();
     if (distance < 0) {
         // handle expiry here..
         clearInterval(timer); // stop the timer from continuing ..
@@ -78,6 +78,14 @@ function showRemaining()
     var minutes = Math.floor((distance % _hour) / _minute);
     var seconds = Math.floor((distance % _minute) / _second);
     //var milliseconds = distance % _second;
+    if (days < 0)
+        days = 0;
+    if (hours < 0)
+        hours = 0;
+    if (minutes < 0)
+        minutes = 0;
+    if (seconds < 0)
+        seconds = 0;
 
     var countdownElement = document.getElementById('timer');
     countdownElement.innerHTML = 'Tempo Restante: ' + days + 'd ' +
@@ -86,4 +94,4 @@ function showRemaining()
             seconds + 's ';
 }
 
-timer = setInterval(showRemaining, 1000);
+timer = setInterval(showRemaining, 500);
