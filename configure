@@ -3,4 +3,10 @@
 echo "Instalando o Maven..."
 sudo apt-get install maven2
 
+echo "Baixando o Apache Tomcat 6..."
+#wget http://mirror.atlanticmetro.net/apache/tomcat/tomcat-7/v7.0.29/bin/apache-tomcat-7.0.29.tar.gz
+#tar xvzf apache-tomcat-7.0.29.tar.gz
+
+chmod +x apache-tomcat-6.0.37/bin/*.sh
+mkdir apache-tomcat-6.0.37/logs
 echo "ok"
