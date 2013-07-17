@@ -24,7 +24,7 @@ import java.util.List;
 public class VotacaoDAOImpl implements VotacaoDAO {
 
     @Override
-    public Votacao getVotacaoCorrente() {
+    public Votacao getVotacaoCorrente() throws SQLException{
         final String query = "select * from votacao where id = ? order by inicio, fim desc";
 
         try {
@@ -45,12 +45,12 @@ public class VotacaoDAOImpl implements VotacaoDAO {
 
             return votacao;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
+            throw new SQLException("Erro ao executar consulta <" + query + ">.", ex);
         }
     }
 
     @Override
-    public void salvar(Votos votos) {
+    public void salvar(Votos votos) throws SQLException{
         final String query = "insert into votos (idvotacao, votosesquerda, votosdireita, horarecebimento) values (?, ?, ?, ?)";
 
         try {
@@ -67,12 +67,12 @@ public class VotacaoDAOImpl implements VotacaoDAO {
             connection.close();
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao salvar votos .", ex);
+            throw new SQLException("Erro ao salvar votos .", ex);
         }
     }
 
     @Override
-    public SituacaoVotacao getSituacaoVotacao(int idVotacao) {
+    public SituacaoVotacao getSituacaoVotacao(int idVotacao) throws SQLException{
         final String query = "select sum(votosEsquerda) as votosEsquerda, sum(votosDireita) as votosDireita, fim \n"
                 + "from votos join votacao on votos.idvotacao=votacao.id\n"
                 + "where idvotacao = ?\n"
@@ -98,12 +98,12 @@ public class VotacaoDAOImpl implements VotacaoDAO {
 
             return situacaoVotacao;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
+            throw new SQLException("Erro ao executar consulta <" + query + ">.", ex);
         }
     }
 
     @Override
-    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) {
+    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) throws SQLException{
         final String query = "select HOUR(horaRecebimento) as hora,"
                 + "	sum(votosEsquerda) as votosEsquerda,"
                 + " 	sum(votosDireita) as votosDireita "
@@ -132,7 +132,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
 
             return votosPorHora;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
+            throw new  SQLException("Erro ao executar consulta <" + query + ">.", ex);
         }
     }
 }

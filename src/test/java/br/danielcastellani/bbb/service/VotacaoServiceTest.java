@@ -6,9 +6,11 @@ package br.danielcastellani.bbb.service;
 
 import br.danielcastellani.bbb.dao.VotacaoDAO;
 import br.danielcastellani.bbb.dao.VotacaoDAOImpl;
+import br.danielcastellani.bbb.exception.ApplicationException;
 import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.Votacao;
 import java.sql.Date;
+import java.sql.SQLException;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 import org.testng.annotations.BeforeMethod;
@@ -24,7 +26,7 @@ public class VotacaoServiceTest {
     VotacaoDAO votacaoDAO;
 
     @BeforeMethod
-    public void setUp() {
+    public void setUp() throws SQLException, ApplicationException {
         votacaoDAO = mock(VotacaoDAOImpl.class);
         when(votacaoDAO.getVotacaoCorrente()).thenReturn(new Votacao(1, "Esquerda", "Direita", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 1000)));
 
@@ -48,14 +50,14 @@ public class VotacaoServiceTest {
     }
 
     @Test
-    public void quandoSalvaVotacaoDeveReiniciarContagemCorrente() {
+    public void quandoSalvaVotacaoDeveReiniciarContagemCorrente() throws ApplicationException {
         votacaoService.salvaVotacaoAtual();
         assertEquals(votacaoService.getVotosDireita(), 0);
         assertEquals(votacaoService.getVotosEsquerda(), 0);
     }
 
     @Test
-    public void aposVotacaoTerminarNaoDeveContabilizarVotosQuandoVotarNaEsquerda() {
+    public void aposVotacaoTerminarNaoDeveContabilizarVotosQuandoVotarNaEsquerda() throws SQLException, ApplicationException {
         when(votacaoDAO.getVotacaoCorrente()).thenReturn(new Votacao(1, "Esquerda", "Direita", new Date(System.currentTimeMillis() - 1000), new Date(System.currentTimeMillis() - 1000)));
         votacaoService.inicializaVotacao();
 
@@ -65,7 +67,7 @@ public class VotacaoServiceTest {
     }
 
     @Test
-    public void aposVotacaoTerminarNaoDeveContabilizarVotosQuandoVotarNaDireita() {
+    public void aposVotacaoTerminarNaoDeveContabilizarVotosQuandoVotarNaDireita() throws SQLException, ApplicationException {
         when(votacaoDAO.getVotacaoCorrente()).thenReturn(new Votacao(1, "Esquerda", "Direita", new Date(System.currentTimeMillis() - 1000), new Date(System.currentTimeMillis() - 1000)));
         votacaoService.inicializaVotacao();
 
@@ -75,20 +77,20 @@ public class VotacaoServiceTest {
     }
 
     @Test
-    public void quandoSalvarVotacaoMasNaoHouverNovosVotosNaoDeveSalvar() {
+    public void quandoSalvarVotacaoMasNaoHouverNovosVotosNaoDeveSalvar() throws ApplicationException, SQLException {
         votacaoService.salvaVotacaoAtual();
         verify(votacaoDAO, times(0)).salvar(any(Votos.class));
     }
 
     @Test
-    public void quandoSalvarVotacaoMasHouverNovosVotosParaDireitaDeveSalvar() {
+    public void quandoSalvarVotacaoMasHouverNovosVotosParaDireitaDeveSalvar() throws ApplicationException, SQLException {
         votacaoService.votarEm(VotacaoService.Participantes.direita);
         votacaoService.salvaVotacaoAtual();
         verify(votacaoDAO).salvar(any(Votos.class));
     }
 
     @Test
-    public void quandoSalvarVotacaoMasHouverNovosVotosParaEsquerdaDeveSalvar() {
+    public void quandoSalvarVotacaoMasHouverNovosVotosParaEsquerdaDeveSalvar() throws SQLException, ApplicationException {
         votacaoService.votarEm(VotacaoService.Participantes.esquerda);
         votacaoService.salvaVotacaoAtual();
         verify(votacaoDAO).salvar(any(Votos.class));

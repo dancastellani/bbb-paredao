@@ -2,11 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.bbb.controler;
+package br.danielcastellani.bbb.controler.ws;
 
 import br.danielcastellani.bbb.ContextoAplicacao;
+import br.danielcastellani.bbb.controler.VotacaoControler;
+import br.danielcastellani.bbb.exception.ApplicationError;
+import br.danielcastellani.bbb.exception.ApplicationException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.rmi.ServerException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +27,11 @@ public class WSServlet extends HttpServlet {
     private VotacaoControler votacaoControler;
 
     public WSServlet() {
-        this.votacaoControler = ContextoAplicacao.getContexto().getBean(VotacaoControler.class);
+        try {
+            this.votacaoControler = ContextoAplicacao.getContexto().getBean(VotacaoControler.class);
+        } catch (ApplicationException ex) {
+            throw new ApplicationError("Erro ao criar o WS:" + this.getClass().getCanonicalName(), ex);
+        }
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -31,7 +41,11 @@ public class WSServlet extends HttpServlet {
         if (requestSemContexto.equals("/votar")) {
             votacaoControler.votar(request);
         } else if (requestSemContexto.equals("/situacao")) {
-            retorno = votacaoControler.getSituacaoVotacao();
+            try {
+                retorno = votacaoControler.getSituacaoVotacao();
+            } catch (ApplicationException ex) {
+                throw new ServerException("Erro processando requisição: "+ requestSemContexto, ex);
+            }
         }
 
         PrintWriter writer = null;

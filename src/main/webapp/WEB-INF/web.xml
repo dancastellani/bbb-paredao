@@ -21,11 +21,15 @@
 
     <listener>
         <listener-class>br.danielcastellani.bbb.ContextoAplicacao</listener-class>
+        <context-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>Spring-Module.xml</param-value>
+        </context-param>
     </listener>
     <!--WS para a votacao-->
     <servlet>
         <servlet-name>FrontServlet</servlet-name>
-        <servlet-class>br.danielcastellani.bbb.controler.WSServlet</servlet-class>
+        <servlet-class>br.danielcastellani.bbb.controler.ws.WSServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontServlet</servlet-name>
@@ -58,4 +62,8 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+
+    
+    
+    S
 </web-app>

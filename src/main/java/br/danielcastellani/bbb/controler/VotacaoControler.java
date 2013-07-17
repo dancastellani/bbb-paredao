@@ -6,6 +6,8 @@ package br.danielcastellani.bbb.controler;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import br.danielcastellani.bbb.ContextoAplicacao;
+import br.danielcastellani.bbb.exception.ApplicationError;
+import br.danielcastellani.bbb.exception.ApplicationException;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.service.VotacaoService;
 import java.io.IOException;
@@ -20,7 +22,11 @@ public class VotacaoControler {
     private VotacaoService votacaoService;
 
     public VotacaoControler() {
-        this.votacaoService = ContextoAplicacao.getContexto().getBean(VotacaoService.class);
+        try {
+            this.votacaoService = ContextoAplicacao.getContexto().getBean(VotacaoService.class);
+        } catch (ApplicationException ex) {
+            throw new ApplicationError("Erro ao construir:" + this.getClass().getCanonicalName(), ex);
+        }
     }
 
     public void votar(HttpServletRequest request) {
@@ -34,7 +40,7 @@ public class VotacaoControler {
         }
     }
 
-    public String getSituacaoVotacao() {
+    public String getSituacaoVotacao() throws ApplicationException {
         SituacaoVotacao situacaoVotacao = votacaoService.getSituacaoVotacao();
 
         //transforma em JSON 
@@ -42,7 +48,7 @@ public class VotacaoControler {
         try {
             return mapper.writeValueAsString(situacaoVotacao);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new ApplicationException("Erro ao recuperar a situação da votação.", ex);
         }
     }
 }

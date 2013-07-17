@@ -26,11 +26,11 @@ public class ConexaoBD {
             String databaseUrl = prop.getProperty("database.url");
             String databaseUser = prop.getProperty("database.user");
             String databasePassword = prop.getProperty("database.password");
-                
+
             connection = DriverManager.getConnection(databaseUrl, databaseUser, databasePassword);
             return connection;
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new SQLException(ex);
         } catch (SQLException ex) {
             throw new SQLException("Erro ao conectar com credenciais.", ex);
         }

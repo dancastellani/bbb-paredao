@@ -8,6 +8,7 @@ import br.danielcastellani.bbb.model.ResumoVotos;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.model.Votacao;
 import br.danielcastellani.bbb.model.Votos;
+import java.sql.SQLException;
 import java.util.List;
 import static org.testng.Assert.*;
 import org.testng.annotations.BeforeTest;
@@ -33,19 +34,19 @@ public class VotacaoDAOTest {
 //        votacaoDAO.removeVotos(0);
 //    }
     @Test
-    public void recuperaVotacaoCorrenteComSucesso() {
+    public void recuperaVotacaoCorrenteComSucesso() throws SQLException {
         Votacao votacaoCorrente = votacaoDAO.getVotacaoCorrente();
         assertNotNull(votacaoCorrente);
     }
 
     @Test
-    public void quandoRecuperaVotosNaoDeveSerNull() {
+    public void quandoRecuperaVotosNaoDeveSerNull() throws SQLException {
         List<ResumoVotos> votosDeVotacaoAgrupadosHora = votacaoDAO.getVotosDeVotacaoAgrupadosHora(1);
         assertNotNull(votosDeVotacaoAgrupadosHora);
     }
 
     @Test
-    public void salvaVotosComSucesso() {
+    public void salvaVotosComSucesso() throws SQLException {
         Votos votos = new Votos(1, 1, 0, 1);
         votacaoDAO.salvar(votos);
         SituacaoVotacao situacaoVotacao = votacaoDAO.getSituacaoVotacao(1);

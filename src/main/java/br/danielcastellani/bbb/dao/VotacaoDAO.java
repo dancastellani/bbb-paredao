@@ -8,6 +8,7 @@ import br.danielcastellani.bbb.model.ResumoVotos;
 import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.model.Votacao;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,12 +16,12 @@ import java.util.List;
  * @author DanCastellani
  */
 public interface VotacaoDAO {
-    
-    public Votacao getVotacaoCorrente();
 
-    public void salvar(Votos votos);
+    public Votacao getVotacaoCorrente() throws SQLException;
 
-    public SituacaoVotacao getSituacaoVotacao(int idVotacaoCorrente);
+    public void salvar(Votos votos) throws SQLException;
 
-    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao);
+    public SituacaoVotacao getSituacaoVotacao(int idVotacaoCorrente) throws SQLException;
+
+    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) throws SQLException;
 }

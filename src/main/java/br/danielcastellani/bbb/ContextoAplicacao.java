@@ -6,6 +6,8 @@ package br.danielcastellani.bbb;
 
 import br.danielcastellani.bbb.dao.VotacaoDAO;
 import br.danielcastellani.bbb.dao.VotacaoDAOImpl;
+import br.danielcastellani.bbb.exception.ApplicationError;
+import br.danielcastellani.bbb.exception.ApplicationException;
 import br.danielcastellani.bbb.job.SalvarVotosJob;
 import br.danielcastellani.bbb.service.VotacaoService;
 import com.googlecode.flyway.core.Flyway;
@@ -34,6 +36,10 @@ public class ContextoAplicacao implements ServletContextListener {
     private static ContextoAplicacao contexto = null;
     private Map<String, Object> map;
 
+    public ContextoAplicacao() {
+        map = new HashMap<String, Object>();
+    }
+
     public static ContextoAplicacao getContexto() {
         return contexto;
     }
@@ -42,13 +48,13 @@ public class ContextoAplicacao implements ServletContextListener {
         return map.get(key);
     }
 
-    public <T> T getBean(Class classe) {
+    public <T> T getBean(Class classe) throws ApplicationException {
         String key = classe.getCanonicalName();
         if (!map.containsKey(key)) {
             try {
                 map.put(key, (T) classe.newInstance());
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                throw new ApplicationException("Erro ao inicializar classe: " + classe.getCanonicalName(), ex);
             }
         }
         T retorno = (T) map.get(key);
@@ -56,55 +62,46 @@ public class ContextoAplicacao implements ServletContextListener {
     }
 
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("===================================");
-        System.out.println("inicializando BBB");
+        try {
+            System.out.println("===================================");
+            System.out.println("inicializando BBB");
 
-        executaMigracao();
+            ContextoAplicacao.contexto = this;
 
-        carregarDriverJDBC();
+            executaMigracao();
+            carregarDriverJDBC();
+            inicializarVotacao();
+            inicializaTarefaSalvarVotos();
 
-        ContextoAplicacao.contexto = this;
-        map = new HashMap<String, Object>();
-        VotacaoDAO votacaoDAO = getBean(VotacaoDAOImpl.class);
-        VotacaoService votacaoService = getBean(VotacaoService.class);
-        votacaoService.setVotacaoDAO(votacaoDAO);
-        votacaoService.inicializaVotacao();
-
-        inicializaTarefaSalvarVotos();
-
-        System.out.println("ok");
-        System.out.println("===================================");
+            System.out.println("ok");
+            System.out.println("===================================");
+        } catch (ApplicationException ex) {
+            throw new ApplicationError("Erro ao inicializar o serviço de votação.", ex);
+        }
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
         try {
-            // Grab the Scheduler instance from the Factory 
-            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-
-            // and start it off
-            scheduler.start();
-
-            scheduler.shutdown();
-
-        } catch (SchedulerException se) {
-            throw new RuntimeException(se);
+            desligarAgendamentoDeTarefas();
+        } catch (ApplicationException ex) {
+            throw new ApplicationError("Erro ao destruir o ContextoAplicação:" + this.getClass().getCanonicalName(), ex);
         }
     }
 
-    public static void carregarDriverJDBC() {
+    public static void carregarDriverJDBC() throws ApplicationException {
         try {
             Properties prop = new Properties();
             prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("db/database.properties"));
             Class.forName(prop.getProperty("database.driver"));
 
-        } catch (IOException ex) {
-            throw new RuntimeException("Erro ao conectar com o banco.", ex);
         } catch (ClassNotFoundException ex) {
-            throw new RuntimeException("Erro ao conectar com o banco.", ex);
+            throw new ApplicationException("Erro ao executar a migração dos dados.", ex);
+        } catch (IOException ex) {
+            throw new ApplicationException("Erro ao executar a migração dos dados.", ex);
         }
     }
 
-    private void inicializaTarefaSalvarVotos() {
+    private void inicializaTarefaSalvarVotos() throws ApplicationException {
         try {
             JobDetail job = new JobDetail();
             job.setName("SalvarVotos");
@@ -118,11 +115,11 @@ public class ContextoAplicacao implements ServletContextListener {
             scheduler.start();
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException ex) {
-            throw new RuntimeException(ex);
+            throw new ApplicationException("Erro ao executar o agendamento da tarefa de salvamento assíncrono dos votos.", ex);
         }
     }
 
-    private void executaMigracao() {
+    private void executaMigracao() throws ApplicationException {
         try {
             Properties prop = new Properties();
             prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("db/database.properties"));
@@ -131,7 +128,29 @@ public class ContextoAplicacao implements ServletContextListener {
             flyway.setDataSource(prop.getProperty("database.url"), prop.getProperty("database.user"), prop.getProperty("database.password"));
             flyway.migrate();
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new ApplicationException("Erro ao executar a migração dos dados.", ex);
         }
+    }
+
+    private void desligarAgendamentoDeTarefas() throws ApplicationException {
+        try {
+            // Grab the Scheduler instance from the Factory 
+            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+
+            // and start it off
+            scheduler.start();
+
+            scheduler.shutdown();
+
+        } catch (SchedulerException ex) {
+            throw new ApplicationException("Erro ao finalizar as tarefas com Quartz.", ex);
+        }
+    }
+
+    private void inicializarVotacao() throws ApplicationException {
+        VotacaoDAO votacaoDAO = getBean(VotacaoDAOImpl.class);
+        VotacaoService votacaoService = getBean(VotacaoService.class);
+        votacaoService.setVotacaoDAO(votacaoDAO);
+        votacaoService.inicializaVotacao();
     }
 }
