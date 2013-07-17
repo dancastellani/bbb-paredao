@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="i5" name="br.danielcastellani.bbb.ContextoTest" tests="1" failures="0" timestamp="17 Jul 2013 01:32:39 GMT" time="0.901" errors="0">
-  <testcase name="criaConexao" time="0.888" classname="br.danielcastellani.bbb.ContextoTest"/>
-</testsuite>
