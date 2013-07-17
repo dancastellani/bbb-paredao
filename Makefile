@@ -3,9 +3,9 @@ default:
 	rm -rf apache-tomcat-6.0.37/webapps/bbb
 	rm -f apache-tomcat-6.0.37/webapps/bbb.war
 
-	cp target/bbb.war apache-tomcat-6.0.37/webapps/
+	cp target/bbb.war tomcat6/webapps/
 
-	./apache-tomcat-6.0.37/bin/startup.sh
+	./tomcat6/bin/startup.sh
 	echo "---------------------------------"
 	echo "Acesse: "
 	echo "	Votar - http://localhost:8080 "
