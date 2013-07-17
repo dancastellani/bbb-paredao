@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    
     <display-name>bbb-votacao</display-name>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+    
+    <filter>
+        <filter-name>DoSFilter</filter-name>
+        <filter-class>org.eclipse.jetty.servlets.DoSFilter</filter-class>
+        <init-param>
+            <param-name>maxRequestsPerSec</param-name>
+            <param-value>30</param-value>
+        </init-param>
+    </filter>
+
     <listener>
         <listener-class>br.danielcastellani.bbb.ContextoAplicacao</listener-class>
     </listener>
-    
     <!--WS para a votacao-->
     <servlet>
         <servlet-name>FrontServlet</servlet-name>
@@ -24,7 +31,6 @@
         <servlet-name>FrontServlet</servlet-name>
         <url-pattern>/votacao/*</url-pattern>
     </servlet-mapping>
-    
     <!--JSF-->
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
@@ -52,5 +58,4 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
-
 </web-app>
