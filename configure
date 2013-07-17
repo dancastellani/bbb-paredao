@@ -1,12 +1,16 @@
 #!/bin/sh
 
+echo "---------------------------------"
+echo "         PREPARANDO BBB"
+
 echo "Instalando o Maven..."
 sudo apt-get install maven2
+echo "Maven ==> ok "
 
 echo "Baixando o Apache Tomcat 6..."
-#wget http://mirror.atlanticmetro.net/apache/tomcat/tomcat-7/v7.0.29/bin/apache-tomcat-7.0.29.tar.gz
-#tar xvzf apache-tomcat-7.0.29.tar.gz
+wget http://ftp.unicamp.br/pub/apache/tomcat/tomcat-6/v6.0.37/bin/apache-tomcat-6.0.37.tar.gz
+tar xvzf apache-tomcat-6.0.37.tar.gz
+echo "Tomcat 6 ==> ok."
 
-chmod +x apache-tomcat-6.0.37/bin/*.sh
-mkdir apache-tomcat-6.0.37/logs
-echo "ok"
+echo "          PRONTO"
+echo "---------------------------------"
