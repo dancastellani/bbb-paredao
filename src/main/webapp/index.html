@@ -12,13 +12,15 @@
         <script type="text/javascript" src="js/bbb.js"></script>
     </head>
     <body>
-        <div id="bemVindo" class="bbb-container">
+        <div id="bemVindo" style="width: 600px">
             <img src="img/bbb13_logo.jpg" alt="Logo BBB"/>
             <a class="btn btn-large btn-primary" id="mostrarParedao">Vote no Paredão do BBB</a>
         </div>
 
 
         <div id="paredao" class="hide"> 
+            <div class="botaoFechar"></div>
+            
             <div id="cabecalho" class="bbb-container-top" >
                 <span class="logo"></span><span>QUEM DEVE SER <strong>ELIMINADO</strong>?</span>
                 <img id="barraTop" src="img/barraTop.JPG"/>
@@ -39,7 +41,6 @@
                 </div>
             </div>
 
-
             <div id="acoesVotacao" class="row bbb-container-botton">
                 <a class="btn btn-large btn-primary hide" id="votar">Envie seu voto agora</a>
             </div>
@@ -50,16 +51,29 @@
                 </div>
                 <div class="row">
                     <div class="span4">
-                        <div class="foto img-rounded foto-esquerda"></div>
-                        <p class="centralizado">Votos:<span id="votosParticipanteEsquerda" ></span></p>
+                        <div class="foto img-rounded foto-esquerda-votos"></div>
+<!--                                                <div style="  position: relative; left: 190px; top: -30px">
+                                                    <p><span id="votosParticipanteEsquerda" ></span></p>
+                                                </div>-->
                     </div>
 
                     <div class="span4">
-                        <div class="foto img-rounded foto-direita"></div>
-                        <p class="centralizado">Votos:<span id="votosParticipanteDireita" ></span></p>
+                        <div class="foto img-rounded foto-direita-votos"></div>
+                        <!--                        <div style="  position: relative; left: 80px; top: -30px">
+                                                    <p><span id="votosParticipanteDireita" ></span></p>
+                                                </div>-->
                     </div>
                 </div>
-                <div id="timer" class="centralizado"></div>
+                <div id="timer" class="centralizado">
+                    <span>
+                        FALTAM 
+                        <b><span id="tempoRestante"></span></b>
+                        PARA ENCERRAR A VOTAÇÃO
+                    </span>
+                </div>
+                <div id="standings">
+                    <canvas id="graph" width="264" height="178"></canvas>
+                </div>
             </div>
         </div>
     </body>

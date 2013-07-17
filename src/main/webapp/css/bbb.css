@@ -1,7 +1,7 @@
 .bbb-container {
     border-radius:10px;
-    padding:10px;
-
+    /*padding:10px;*/
+    height: 575px;
     width: 620px;
     line-height: 40px;
     display: inline-block;
@@ -10,9 +10,21 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);  
 }
 
-.bbb-container-top{
-    text-align: center;
-    font-size: large;
+.botaoFechar {
+    position: relative;
+    float: right;
+    background-image: url("../img/sprite.png");
+    background-position: 0px -99px;
+    background-repeat: no-repeat;
+    /*background-color: transparent;*/
+    width: 40px;
+    height: 40px;
+    display:block;
+    text-indent:-9999px;
+    top:-16px;
+    right:-20px;
+    border: 0px;
+    z-index: 3200;
 }
 
 .bara-topo {
@@ -86,6 +98,18 @@
     background-position: -340px -150px;
 }
 
+.foto-esquerda-votos {
+    background-image: url("../img/sprite.png");
+    background-repeat: no-repeat;
+    background-position: -60px -150px;
+}
+
+.foto-direita-votos {
+    background-image: url("../img/sprite.png");
+    background-repeat: no-repeat;
+    background-position: -290px -150px;
+}
+
 .container {
     border-radius: 4px;
     border: 1px solid #dddddd;
@@ -105,8 +129,9 @@
 
 #timer{
     text-align: center;
-    border-radius: 4px;
-    border: 1px solid #ff9a00;
+    
+    position: relative;
+    top: -20px;
 }
 
 .com-borda{
@@ -149,4 +174,20 @@
 
 #resumoVotacao {
     width: 900px;
+}
+
+/*grafico de votos*/
+/*#graph {
+  position: relative;
+}*/
+
+#standings {
+  text-align: center;
+  position: relative;
+  top: -237px;
+  text-decoration-color: #ff9a00;
+}
+
+#tempoRestante {
+    text-decoration-color: orange;
 }
