@@ -63,3 +63,8 @@ Para implementar esta tarefa foi utilizado o Quartz.
 
 12. Foi realizado teste de carga com ab da Apache no Ubuntu, obtendo mais de 1000 acessos por segundo em ambas as páginas e web services.
 
+13. Para aumentar ainda mais a disponibilidade, poderiam ser utilizados vários servidores com um balancer na frente dividindo as requisições entre eles.
+Para facilitar o deploy e teste, foi utilizado o Jetty Embed no Maven. Mas em ambiente de produção outro servidor deveria ser utilizado, configurado para isso.
+
+
+
