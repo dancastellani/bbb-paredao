@@ -60,3 +60,6 @@ Para implementar esta tarefa foi utilizado o Quartz.
 10. Para os testes foi utilizado o TestNG + Mockito.
 
 11. O deploy pode ser feito em Tomcat 6 ou Jetty. 
+
+12. Foi realizado teste de carga com ab da Apache no Ubuntu, obtendo mais de 1000 acessos por segundo em ambas as páginas e web services.
+
