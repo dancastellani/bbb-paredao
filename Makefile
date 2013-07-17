@@ -8,6 +8,6 @@ default:
 	./tomcat6/bin/startup.sh
 	echo "---------------------------------"
 	echo "Acesse: "
-	echo "	Votar - http://localhost:8080 "
-	echo "	Resumo da Votação - http://localhost:8080/resumo.xhtml"
+	echo "	Votar - http://localhost:8080/bbb/ "
+	echo "	Resumo da Votação - http://localhost:8080/bbb/resumo.xhtml"
 	echo "---------------------------------"
