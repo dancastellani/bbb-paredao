@@ -8,7 +8,22 @@ $(document).ready(function() {
     $("#mostrarParedao").click(function(e) {
         mostrarParedao();
     });
+    $(".foto-clicavel").mouseenter(function(e) {
+        ressalta(e.target);
+    }).mouseleave(function() {
+        limpa(e.target);
+    });
+    $(".foto-clicavel").mouseenter(ressalta(elem)).mouseleave(limpa(elem));
 });
+
+function limpa(elem) {
+    $(elem).removeClass("selecionada");
+}
+
+function ressalta(elem) {
+    $(".foto-clicavel").removeClass("selecionada");
+    $(elem).addClass("selecionada");
+}
 
 function mostrarParedao() {
     $("#bemVindo").addClass("hide");
@@ -18,8 +33,7 @@ function mostrarParedao() {
 }
 
 function seleciona(elem) {
-    $(".foto-clicavel").removeClass("selecionada");
-    $(elem).addClass("selecionada");
+    ressalta(elem);
     $("#votar").removeClass("hide");
 }
 
@@ -51,7 +65,7 @@ function votar() {
         mostrarResultado();
     })
             .error(function() {
-        console.log("Não foi possível contabilizar o voto.");
+        console.log("Nï¿½o foi possï¿½vel contabilizar o voto.");
     });
 }
 
