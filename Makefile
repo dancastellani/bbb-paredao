@@ -6,8 +6,9 @@ default:
 	cp target/bbb.war tomcat6/webapps/
 
 	./tomcat6/bin/startup.sh
-	echo "---------------------------------"
-	echo "Acesse: "
-	echo "	Votar - http://localhost:8080/bbb/ "
-	echo "	Resumo da Votação - http://localhost:8080/bbb/resumo.xhtml"
-	echo "---------------------------------"
+	@echo "---------------------------------"
+	@echo "Votação BBB - Online "
+	@echo "Acesse: "
+	@echo "	Votar - http://localhost:8080/bbb/ "
+	@echo "	Resumo da Votação - http://localhost:8080/bbb/resumo.xhtml"
+	@echo "---------------------------------"
