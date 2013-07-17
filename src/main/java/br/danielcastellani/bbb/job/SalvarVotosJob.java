@@ -8,8 +8,6 @@ import br.danielcastellani.bbb.ContextoAplicacao;
 import br.danielcastellani.bbb.exception.ApplicationError;
 import br.danielcastellani.bbb.exception.ApplicationException;
 import br.danielcastellani.bbb.service.VotacaoService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

@@ -95,4 +95,66 @@ public class VotacaoServiceTest {
         votacaoService.salvaVotacaoAtual();
         verify(votacaoDAO).salvar(any(Votos.class));
     }
+
+    @Test
+    public void quandoInicializaAVotacaoMasOcorreSQLExceptionDeveLancarApplicationException() throws SQLException {
+        when(votacaoDAO.getVotacaoCorrente()).thenThrow(new SQLException());
+        try {
+            votacaoService.inicializaVotacao();
+            fail("Deveria ter lançado ApplicationException.");
+
+        } catch (ApplicationException ex) {
+            assertEquals(ex.getMessage(), "Erro ao inicializar a votação.");
+        }
+    }
+
+    @Test
+    public void quandoRecuperaASituacaoVotacaoMasOcorreSQLExceptionDeveLancarApplicationException() throws SQLException {
+        when(votacaoDAO.getSituacaoVotacao(anyInt())).thenThrow(new SQLException());
+        try {
+            votacaoService.getSituacaoVotacao();
+            fail("Deveria ter lançado ApplicationException.");
+
+        } catch (ApplicationException ex) {
+            assertEquals(ex.getMessage(), "Erro ao recuperar a situação atual da votação.");
+        }
+    }
+
+    @Test
+    public void quandoRecuperaAVotacaoCorrenteMasOcorreSQLExceptionDeveLancarApplicationException() throws SQLException {
+        when(votacaoDAO.getVotacaoCorrente()).thenThrow(new SQLException());
+        try {
+            votacaoService.getVotacaoCorrente();
+            fail("Deveria ter lançado ApplicationException.");
+
+        } catch (ApplicationException ex) {
+            assertEquals(ex.getMessage(), "Erro ao recuperar a votação corrente.");
+        }
+    }
+
+    @Test
+    public void quandoRecuperaVotosAgrupadosPorHoraMasOcorreSQLExceptionDeveLancarApplicationException() throws SQLException {
+        when(votacaoDAO.getVotosDeVotacaoAgrupadosHora(anyInt())).thenThrow(new SQLException());
+        try {
+            votacaoService.getVotosDeVotacaoAgrupadosHora(anyInt());
+            fail("Deveria ter lançado ApplicationException.");
+
+        } catch (ApplicationException ex) {
+            assertEquals(ex.getMessage(), "Erro ao recuperar os votos agrupados por hora.");
+        }
+    }
+
+    @Test
+    public void quandoSalvaVotacaoAtualMasOcorreSQLExceptionDeveLancarApplicationException() throws SQLException {
+        doThrow(new SQLException()).when(votacaoDAO).salvar(any(Votos.class));
+        votacaoService = spy(votacaoService);
+        when(votacaoService.getVotosContabilizadosParaReiniciarContagem()).thenReturn(new Votos(1, 1, 1, 1));
+        try {
+            votacaoService.salvaVotacaoAtual();
+            fail("Deveria ter lançado ApplicationException.");
+
+        } catch (ApplicationException ex) {
+            assertEquals(ex.getMessage(), "Erro ao salvar os votos.");
+        }
+    }
 }

@@ -11,8 +11,6 @@ import br.danielcastellani.bbb.model.ResumoVotos;
 import br.danielcastellani.bbb.model.Votacao;
 import br.danielcastellani.bbb.service.VotacaoService;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
