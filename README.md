@@ -24,6 +24,8 @@ Servidor:
   - JDBC
   - Flyway
   - Quartz
+
+Testes:
   - TestNG + Mockito
 
 Banco de Dados:
