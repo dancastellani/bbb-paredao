@@ -6,4 +6,4 @@ insert into votacao values (1, 'Participante 1', 'Participante 2', current_times
 */
 /* para o hsql
 */
-insert into votacao values (1, 'Participante 1', 'Participante 2', current_timestamp, DATEADD('day',2,current_timestamp));
+insert into votacao values (1, 'Participante 1', 'Participante 2', current_timestamp, DATEADD('hour',15,current_timestamp));

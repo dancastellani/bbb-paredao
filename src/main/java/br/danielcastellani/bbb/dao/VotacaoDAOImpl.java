@@ -4,7 +4,6 @@
  */
 package br.danielcastellani.bbb.dao;
 
-import static br.danielcastellani.bbb.dao.ConexaoBD.connect;
 import br.danielcastellani.bbb.model.ResumoVotos;
 import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
@@ -16,19 +15,30 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.sql.DataSource;
 
 /**
  *
  * @author DanCastellani
  */
+@Named(value = "VotacaoDAO")
 public class VotacaoDAOImpl implements VotacaoDAO {
+
+    @Inject
+    private DataSource dataSource;
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public Votacao getVotacaoCorrente() {
         final String query = "select * from votacao where id = ? order by inicio, fim desc";
 
         try {
-            Connection connection = connect();
+            Connection connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, 1);
             ResultSet rs = ps.executeQuery();
@@ -54,7 +64,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
         final String query = "insert into votos (idvotacao, votosesquerda, votosdireita, horarecebimento) values (?, ?, ?, ?)";
 
         try {
-            Connection connection = connect();
+            Connection connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
 
             ps.setInt(1, votos.getIdVotacao());
@@ -79,7 +89,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
                 + "group by fim";
 
         try {
-            Connection connection = connect();
+            Connection connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, idVotacao);
             ResultSet rs = ps.executeQuery();
@@ -113,7 +123,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
                 + "order by hora";
 
         try {
-            Connection connection = connect();
+            Connection connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, idVotacao);
             ResultSet rs = ps.executeQuery();

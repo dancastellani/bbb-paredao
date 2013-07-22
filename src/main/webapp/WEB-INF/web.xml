@@ -19,9 +19,25 @@
         </init-param>
     </filter>
 
+    <!-- Add Support for Spring -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
     <listener>
-        <listener-class>br.danielcastellani.bbb.ContextoAplicacao</listener-class>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
     </listener>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.request.RequestContextListener
+        </listener-class>
+    </listener>
+
+    <!--    <listener>
+        <listener-class>br.danielcastellani.bbb.ContextoAplicacao</listener-class>
+    </listener>-->
     <!--WS para a votacao-->
     <servlet>
         <servlet-name>FrontServlet</servlet-name>
@@ -48,14 +64,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.jsf</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.faces</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+    
 </web-app>

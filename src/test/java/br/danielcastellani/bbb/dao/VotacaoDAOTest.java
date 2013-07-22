@@ -9,21 +9,33 @@ import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.model.Votacao;
 import br.danielcastellani.bbb.model.Votos;
 import java.util.List;
-import static org.testng.Assert.*;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import javax.inject.Inject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.context.ApplicationContext;
+import static org.junit.Assert.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
  * @author DanCastellani
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "/applicationContext.xml")
 public class VotacaoDAOTest {
 
-    VotacaoDAO votacaoDAO;
+    @Autowired
+    private ApplicationContext applicationContext;
+    
+    @Autowired
+    private VotacaoDAO votacaoDAO;
 
-    @BeforeTest
+    @Before
     public void setUp() {
-        votacaoDAO = new VotacaoDAOImpl();
+//        setVotacaoDAO(new VotacaoDAOImpl());
 //        votacaoDAO.salvar(new Votos(10, 10, System.currentTimeMillis(), 0));
     }
 
@@ -52,5 +64,19 @@ public class VotacaoDAOTest {
 
         assertTrue(situacaoVotacao.getVotosDireita() >= 1);
         assertTrue(situacaoVotacao.getVotosEsquerda() >= 1);
+    }
+
+    /**
+     * @param votacaoDAO the votacaoDAO to set
+     */
+    public void setVotacaoDAO(VotacaoDAO votacaoDAO) {
+        this.votacaoDAO = votacaoDAO;
+    }
+
+    /**
+     * @param applicationContext the applicationContext to set
+     */
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 }

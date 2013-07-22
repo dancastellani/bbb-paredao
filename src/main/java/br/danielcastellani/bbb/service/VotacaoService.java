@@ -10,6 +10,9 @@ import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.model.Votacao;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
+import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * Um contador thread safe para receber cada voto e armazenar ate que sejam
@@ -17,11 +20,13 @@ import java.util.List;
  *
  * @author DanCastellani
  */
+@Named
 public class VotacaoService {
 
     private int votosDireita;
     private int votosEsquerda;
     private long finalDaVotacao; //para otimizar a comparacao a cada voto
+    @Inject
     private VotacaoDAO votacaoDAO;
     private int idVotacaoCorrente;
 
@@ -96,10 +101,15 @@ public class VotacaoService {
         return pacoteDeVotos;
     }
 
+    /**
+     * Metodo chamado via Quartz para salvar os votos a cada segundo.
+     * Veja o applicationContext.xml para mais detalhes.
+     */
     public void salvaVotacaoAtual() {
         Votos votos = getVotosContabilizadosParaReiniciarContagem();
         if (votos.getVotosParticipanteEsquerda() != 0 || votos.getVotosParticipanteDireita() != 0) {
             votacaoDAO.salvar(votos);
         }
+
     }
 }

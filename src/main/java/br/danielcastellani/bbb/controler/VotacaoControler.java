@@ -5,37 +5,41 @@
 package br.danielcastellani.bbb.controler;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import br.danielcastellani.bbb.ContextoAplicacao;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.service.VotacaoService;
 import java.io.IOException;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author DanCastellani
  */
+// spring + jsf
+@Component
+@ManagedBean
+@SessionScoped
 public class VotacaoControler {
 
+    @Autowired
     private VotacaoService votacaoService;
-
-    public VotacaoControler() {
-        this.votacaoService = ContextoAplicacao.getContexto().getBean(VotacaoService.class);
-    }
 
     public void votar(HttpServletRequest request) {
         String participanteVotado = (String) request.getParameter("part_id");
 //        System.out.println("participanteVotado = " + participanteVotado);
 
         if ("esquerda".equals(participanteVotado)) {
-            votacaoService.votarEm(VotacaoService.Participantes.esquerda);
+            getVotacaoService().votarEm(VotacaoService.Participantes.esquerda);
         } else if ("direita".equals(participanteVotado)) {
-            votacaoService.votarEm(VotacaoService.Participantes.direita);
+            getVotacaoService().votarEm(VotacaoService.Participantes.direita);
         }
     }
 
     public String getSituacaoVotacao() {
-        SituacaoVotacao situacaoVotacao = votacaoService.getSituacaoVotacao();
+        SituacaoVotacao situacaoVotacao = getVotacaoService().getSituacaoVotacao();
 
         //transforma em JSON 
         ObjectMapper mapper = new ObjectMapper();
@@ -44,5 +48,19 @@ public class VotacaoControler {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    /**
+     * @return the votacaoService
+     */
+    public VotacaoService getVotacaoService() {
+        return votacaoService;
+    }
+
+    /**
+     * @param votacaoService the votacaoService to set
+     */
+    public void setVotacaoService(VotacaoService votacaoService) {
+        this.votacaoService = votacaoService;
     }
 }

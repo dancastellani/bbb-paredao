@@ -4,9 +4,8 @@
  */
 package br.danielcastellani.bbb;
 
-import br.danielcastellani.bbb.ContextoAplicacao;
 import java.sql.SQLException;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  *
@@ -16,7 +15,9 @@ public class ContextoTest {
 
     @Test
     public void criaConexao() throws SQLException {
-        ContextoAplicacao contextoAplicacao = new ContextoAplicacao();
-        contextoAplicacao.contextInitialized(null);
+//        ContextoAplicacao contextoAplicacao = new ContextoAplicacao();
+//        contextoAplicacao.contextInitialized(null);
+//        ApplicationContext context = 
+//    		new ClassPathXmlApplicationContext("applicationContext.xml");
     }
 }

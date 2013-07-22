@@ -4,28 +4,35 @@
  */
 package br.danielcastellani.bbb.controler;
 
-import br.danielcastellani.bbb.ContextoAplicacao;
 import br.danielcastellani.bbb.model.ResumoVotos;
 import br.danielcastellani.bbb.model.Votacao;
 import br.danielcastellani.bbb.service.VotacaoService;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+import org.springframework.context.annotation.Scope;
+import static org.springframework.web.context.WebApplicationContext.*;
 
 /**
  *
  * @author DanCastellani
  */
-@ManagedBean
-@RequestScoped
+@Named
+@Scope(SCOPE_REQUEST)
 public class ResumoMB {
 
     private Votacao votacao;
+    @Inject
     private VotacaoService votacaoService;
     private List<ResumoVotos> votosPorHora;
 
     public ResumoMB() {
-        votacaoService = ContextoAplicacao.getContexto().getBean(VotacaoService.class);
+//        votacaoService = ContextoAplicacao.getContexto().getBean(VotacaoService.class);
+    }
+
+    @PostConstruct
+    public void init() {
         votacao = votacaoService.getVotacaoCorrente();
         votosPorHora = votacaoService.getVotosDeVotacaoAgrupadosHora(votacao.getId());
     }

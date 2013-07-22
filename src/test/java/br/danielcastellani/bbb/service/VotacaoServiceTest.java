@@ -9,10 +9,10 @@ import br.danielcastellani.bbb.dao.VotacaoDAOImpl;
 import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.Votacao;
 import java.sql.Date;
+import org.junit.Before;
+import org.junit.Test;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -23,7 +23,7 @@ public class VotacaoServiceTest {
     VotacaoService votacaoService;
     VotacaoDAO votacaoDAO;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         votacaoDAO = mock(VotacaoDAOImpl.class);
         when(votacaoDAO.getVotacaoCorrente()).thenReturn(new Votacao(1, "Esquerda", "Direita", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 1000)));
