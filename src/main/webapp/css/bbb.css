@@ -16,16 +16,15 @@
     background-image: url("../img/sprite.png");
     background-position: 0px -99px;
     background-repeat: no-repeat;
-    /*background-color: transparent;*/
     width: 40px;
     height: 40px;
     display:block;
     text-indent:-9999px;
     top:-16px;
-    right:-21px;
+    right:-20px;
     border: 0px;
     z-index: 3200;
-    background-color: white;
+    /*background-color: white;*/
 }
 
 .bara-topo {
