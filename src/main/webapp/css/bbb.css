@@ -22,9 +22,10 @@
     display:block;
     text-indent:-9999px;
     top:-16px;
-    right:-20px;
+    right:-21px;
     border: 0px;
     z-index: 3200;
+    background-color: white;
 }
 
 .bara-topo {

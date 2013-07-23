@@ -4,6 +4,8 @@
  */
 package br.danielcastellani.bbb.controler;
 
+import br.danielcastellani.bbb.exception.ApplicationError;
+import br.danielcastellani.bbb.exception.ApplicationException;
 import br.danielcastellani.bbb.model.ResumoVotos;
 import br.danielcastellani.bbb.model.Votacao;
 import br.danielcastellani.bbb.service.VotacaoService;
@@ -27,14 +29,14 @@ public class ResumoMB {
     private VotacaoService votacaoService;
     private List<ResumoVotos> votosPorHora;
 
-    public ResumoMB() {
-//        votacaoService = ContextoAplicacao.getContexto().getBean(VotacaoService.class);
-    }
-
     @PostConstruct
-    public void init() {
-        votacao = votacaoService.getVotacaoCorrente();
-        votosPorHora = votacaoService.getVotosDeVotacaoAgrupadosHora(votacao.getId());
+    public void init() throws ApplicationException {
+        try {
+            votacao = votacaoService.getVotacaoCorrente();
+            votosPorHora = votacaoService.getVotosDeVotacaoAgrupadosHora(votacao.getId());
+        } catch (ApplicationException ex) {
+            throw new ApplicationError("Erro ao construir:" + this.getClass().getCanonicalName(), ex);
+        }
     }
 
     /**

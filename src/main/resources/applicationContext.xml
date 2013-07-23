@@ -6,8 +6,6 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
  
-    <context:component-scan base-package="br.danielcastellani.bbb" />
-
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
  
@@ -17,10 +15,15 @@
         <property name="password" value="${database.password}" />
     </bean>
     
+    <!--Executar a migração deve ser feito antes de carregar os beans-->
     <bean id="flyway" class="com.googlecode.flyway.core.Flyway" init-method="migrate">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    
+
+<!--O carregamento dos beans deve ser feito após realizar a migração com o flyway-->
+<!--Isso é necessário, pois podem existir classes que dependem de migrações ainda não realizadas-->
+    <context:component-scan base-package="br.danielcastellani.bbb" />
+
     <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
         <property name="attributes">
             <map>

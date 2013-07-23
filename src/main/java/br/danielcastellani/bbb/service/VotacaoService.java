@@ -5,14 +5,17 @@
 package br.danielcastellani.bbb.service;
 
 import br.danielcastellani.bbb.dao.VotacaoDAO;
+import br.danielcastellani.bbb.exception.ApplicationException;
 import br.danielcastellani.bbb.model.ResumoVotos;
 import br.danielcastellani.bbb.model.Votos;
 import br.danielcastellani.bbb.model.SituacaoVotacao;
 import br.danielcastellani.bbb.model.Votacao;
+import java.sql.SQLException;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.InitBinder;
 
 /**
  * Um contador thread safe para receber cada voto e armazenar ate que sejam
@@ -34,8 +37,14 @@ public class VotacaoService {
         this.votacaoDAO = votacaoDAO;
     }
 
-    public void inicializaVotacao() {
-        Votacao votacaoCorrente = votacaoDAO.getVotacaoCorrente();
+    @PostConstruct
+    public void inicializaVotacao() throws ApplicationException {
+        Votacao votacaoCorrente;
+        try {
+            votacaoCorrente = votacaoDAO.getVotacaoCorrente();
+        } catch (SQLException ex) {
+            throw new ApplicationException("Erro ao inicializar a votação.", ex);
+        }
         this.finalDaVotacao = votacaoCorrente.getFim().getTime();
         this.idVotacaoCorrente = votacaoCorrente.getId();
         this.votosDireita = 0;
@@ -56,16 +65,28 @@ public class VotacaoService {
         return votosEsquerda;
     }
 
-    public SituacaoVotacao getSituacaoVotacao() {
-        return votacaoDAO.getSituacaoVotacao(idVotacaoCorrente);
+    public SituacaoVotacao getSituacaoVotacao() throws ApplicationException {
+        try {
+            return votacaoDAO.getSituacaoVotacao(idVotacaoCorrente);
+        } catch (SQLException ex) {
+            throw new ApplicationException("Erro ao recuperar a situação atual da votação.", ex);
+        }
     }
 
-    public Votacao getVotacaoCorrente() {
-        return votacaoDAO.getVotacaoCorrente();
+    public Votacao getVotacaoCorrente() throws ApplicationException {
+        try {
+            return votacaoDAO.getVotacaoCorrente();
+        } catch (SQLException ex) {
+            throw new ApplicationException("Erro ao recuperar a votação corrente.", ex);
+        }
     }
 
-    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) {
-        return votacaoDAO.getVotosDeVotacaoAgrupadosHora(idVotacao);
+    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) throws ApplicationException {
+        try {
+            return votacaoDAO.getVotosDeVotacaoAgrupadosHora(idVotacao);
+        } catch (SQLException ex) {
+            throw new ApplicationException("Erro ao recuperar os votos agrupados por hora.", ex);
+        }
     }
 
     public enum Participantes {
@@ -74,9 +95,6 @@ public class VotacaoService {
     }
 
     public synchronized void votarEm(Participantes participante) {
-        if (finalDaVotacao == 0) {
-            inicializaVotacao();
-        }
         if (System.currentTimeMillis() < finalDaVotacao) {
             if (Participantes.direita == participante) {
                 votosDireita++;
@@ -105,10 +123,14 @@ public class VotacaoService {
      * Metodo chamado via Quartz para salvar os votos a cada segundo.
      * Veja o applicationContext.xml para mais detalhes.
      */
-    public void salvaVotacaoAtual() {
+    public void salvaVotacaoAtual() throws ApplicationException {
         Votos votos = getVotosContabilizadosParaReiniciarContagem();
         if (votos.getVotosParticipanteEsquerda() != 0 || votos.getVotosParticipanteDireita() != 0) {
-            votacaoDAO.salvar(votos);
+            try {
+                votacaoDAO.salvar(votos);
+            } catch (SQLException ex) {
+                throw new ApplicationException("Erro ao salvar os votos.", ex);
+            }
         }
 
     }

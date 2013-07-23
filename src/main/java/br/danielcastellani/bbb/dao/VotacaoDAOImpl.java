@@ -34,13 +34,13 @@ public class VotacaoDAOImpl implements VotacaoDAO {
     }
 
     @Override
-    public Votacao getVotacaoCorrente() {
-        final String query = "select * from votacao where id = ? order by inicio, fim desc";
+    public Votacao getVotacaoCorrente() throws SQLException {
+        final String query = "select * from votacao order by inicio desc, fim desc";
 
-        try {
+//        try {
             Connection connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, 1);
+//            ps.setInt(1, 1);
             ResultSet rs = ps.executeQuery();
             rs.next();
 
@@ -54,16 +54,16 @@ public class VotacaoDAOImpl implements VotacaoDAO {
             connection.close();
 
             return votacao;
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
-        }
+//        } catch (SQLException ex) {
+//            throw new SQLException("Erro ao executar consulta <" + query + ">.", ex);
+//        }
     }
 
     @Override
-    public void salvar(Votos votos) {
+    public void salvar(Votos votos) throws SQLException{
         final String query = "insert into votos (idvotacao, votosesquerda, votosdireita, horarecebimento) values (?, ?, ?, ?)";
 
-        try {
+//        try {
             Connection connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
 
@@ -76,19 +76,19 @@ public class VotacaoDAOImpl implements VotacaoDAO {
 
             connection.close();
 
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao salvar votos .", ex);
-        }
+//        } catch (SQLException ex) {
+//            throw new SQLException("Erro ao salvar votos .", ex);
+//        }
     }
 
     @Override
-    public SituacaoVotacao getSituacaoVotacao(int idVotacao) {
-        final String query = "select sum(votosEsquerda) as votosEsquerda, sum(votosDireita) as votosDireita, fim \n"
-                + "from votos join votacao on votos.idvotacao=votacao.id\n"
-                + "where idvotacao = ?\n"
-                + "group by fim";
+    public SituacaoVotacao getSituacaoVotacao(int idVotacao) throws SQLException{
+        final String query = "select sum(votosEsquerda) as votosEsquerda, sum(votosDireita) as votosDireita, fim "
+                + " from votos left outer join votacao on votos.idvotacao=votacao.id "
+                + " where idvotacao = ? "
+                + " group by fim";
 
-        try {
+//        try {
             Connection connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, idVotacao);
@@ -107,13 +107,13 @@ public class VotacaoDAOImpl implements VotacaoDAO {
             connection.close();
 
             return situacaoVotacao;
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
-        }
+//        } catch (SQLException ex) {
+//            throw new SQLException("Erro ao executar consulta <" + query + ">.", ex);
+//        }
     }
 
     @Override
-    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) {
+    public List<ResumoVotos> getVotosDeVotacaoAgrupadosHora(int idVotacao) throws SQLException{
         final String query = "select HOUR(horaRecebimento) as hora,"
                 + "	sum(votosEsquerda) as votosEsquerda,"
                 + " 	sum(votosDireita) as votosDireita "
@@ -122,7 +122,7 @@ public class VotacaoDAOImpl implements VotacaoDAO {
                 + "group by hora "
                 + "order by hora";
 
-        try {
+//        try {
             Connection connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, idVotacao);
@@ -141,8 +141,8 @@ public class VotacaoDAOImpl implements VotacaoDAO {
             connection.close();
 
             return votosPorHora;
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao executar consulta <" + query + ">.", ex);
-        }
+//        } catch (SQLException ex) {
+//            throw new  SQLException("Erro ao executar consulta <" + query + ">.", ex);
+//        }
     }
 }
